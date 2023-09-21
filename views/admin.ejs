@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>등록</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
+      integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I"
+      crossorigin="anonymous"
+    />
+    <script
+      crossorigin="anonymous"
+      src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"
+    ></script>
+  </head>
+  <body>
+    <div class="row">
+      <h1 class="text-center">NEW JEOSOOJI</h1>
+      <div class="col-6 offset-3">
+        <form action="/" method="POST">
+          <div class="mb-3">
+            <label class="form-label" for="title">TITLE</label>
+            <input class="form-control" type="text" id="name" />
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="location">LOCATION</label>
+            <input class="form-control" type="text" id="location" />
+          </div>
+          <div class="mb-3">
+            <button class="btn btn-success">등록</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
