@@ -5,34 +5,119 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>등록</title>
     <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
-      integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
       crossorigin="anonymous"
     />
-    <script
-      crossorigin="anonymous"
-      src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"
-    ></script>
   </head>
   <body>
-    <div class="row">
+    <div class="row mt-5">
+      <% if(success && success.length) {%>
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <%= success %>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+        ></button>
+      </div>
+      <% } %>
       <h1 class="text-center">NEW JEOSOOJI</h1>
       <div class="col-6 offset-3">
         <form action="/" method="POST">
-          <div class="mb-3">
-            <label class="form-label" for="title">TITLE</label>
+          <div class="mb-2">
+            <label class="form-label" for="title">지점이름</label>
             <input class="form-control" type="text" id="name" />
           </div>
-          <div class="mb-3">
-            <label class="form-label" for="location">LOCATION</label>
-            <input class="form-control" type="text" id="location" />
+          <div class="mb-2">
+            <label class="form-label" for="location">소재지</label>
+
+            <div class="d-flex">
+              <input
+                class="form-control mb-2"
+                type="text"
+                id="sample6_postcode"
+                placeholder="우편번호"
+              />
+              <input
+                class="btn btn-primary mb-2"
+                type="button"
+                onclick="sample6_execDaumPostcode()"
+                value="우편번호 찾기"
+              /><br />
+            </div>
+
+            <input
+              class="form-control"
+              type="text"
+              id="sample6_address"
+              placeholder="주소"
+            />
+            <div class="d-flex mt-2">
+              <input
+                class="form-control"
+                type="text"
+                id="sample6_detailAddress"
+                placeholder="상세주소"
+              />
+              <input
+                class="form-control"
+                type="text"
+                id="sample6_extraAddress"
+                placeholder="참고항목"
+              />
+            </div>
           </div>
-          <div class="mb-3">
+          <div>
             <button class="btn btn-success">등록</button>
           </div>
         </form>
       </div>
     </div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script>
+      function sample6_execDaumPostcode() {
+        new daum.Postcode({
+          oncomplete: function (data) {
+            var addr = "";
+            var extraAddr = "";
+            if (data.userSelectedType === "R") {
+              addr = data.roadAddress;
+            } else {
+              addr = data.jibunAddress;
+            }
+            if (data.userSelectedType === "R") {
+              if (data.bname !== "" && /[동|로|가]$/g.test(data.bname)) {
+                extraAddr += data.bname;
+              }
+              if (data.buildingName !== "" && data.apartment === "Y") {
+                extraAddr +=
+                  extraAddr !== ""
+                    ? ", " + data.buildingName
+                    : data.buildingName;
+              }
+              if (extraAddr !== "") {
+                extraAddr = " (" + extraAddr + ")";
+              }
+              document.getElementById("sample6_extraAddress").value = extraAddr;
+            } else {
+              document.getElementById("sample6_extraAddress").value = "";
+            }
+
+            document.getElementById("sample6_postcode").value = data.zonecode;
+            document.getElementById("sample6_address").value = addr;
+            document.getElementById("sample6_detailAddress").focus();
+          },
+        }).open();
+      }
+    </script>
   </body>
 </html>
