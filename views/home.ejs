@@ -59,6 +59,7 @@
               name="btnradio"
               id="btnradio1"
               autocomplete="off"
+              value="1"
               checked
             />
             <label class="btn btn-outline-primary" for="btnradio1"
@@ -71,6 +72,7 @@
               name="btnradio"
               id="btnradio2"
               autocomplete="off"
+              value="2"
             />
             <label class="btn btn-outline-primary" for="btnradio2"
               >담수호</label
@@ -82,9 +84,11 @@
               name="btnradio"
               id="btnradio3"
               autocomplete="off"
+              value="3"
             />
             <label class="btn btn-outline-primary" for="btnradio3">검색</label>
           </div>
+          <div class="ms-2" id="board"></div>
         </div>
       </div>
     </div>
@@ -118,6 +122,48 @@
       map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
       var zoomControl = new kakao.maps.ZoomControl();
       map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+
+      function updateBoardContent() {
+        var selectedRadio = document.querySelector(
+          'input[name="btnradio"]:checked'
+        ).value;
+        var boardDiv = document.getElementById("board");
+
+        boardDiv.innerHTML = "";
+
+        switch (selectedRadio) {
+          case "1":
+            boardDiv.innerHTML = `<%- include('./partials/reservoir') %>`;
+            break;
+          case "2":
+            boardDiv.innerHTML = `<%- include('./partials/freshWaterLake') %>`;
+            break;
+          case "3":
+            boardDiv.innerHTML = `<%- include('./partials/searchResults') %>`;
+            break;
+          default:
+            boardDiv.innerHTML = `<%- include('./partials/reservoir') %>`;
+            break;
+        }
+      }
+
+      var radioButtons = document.querySelectorAll('input[name="btnradio"]');
+      radioButtons.forEach(function (radio) {
+        radio.addEventListener("change", updateBoardContent);
+      });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        var searchButton = document.querySelector(".btn-success");
+        var searchRadio = document.querySelector('input[value="3"]');
+
+        searchButton.addEventListener("click", function (e) {
+          e.preventDefault();
+          searchRadio.checked = true;
+          updateBoardContent();
+        });
+      });
+
+      updateBoardContent();
     </script>
   </body>
 </html>
