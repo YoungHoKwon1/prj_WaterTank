@@ -2,7 +2,7 @@ const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
 const ejsMate = require("ejs-mate");
-const Jeosooji = require("./models/jeosooji");
+const Location = require("./models/location");
 const session = require("express-session");
 const flash = require("connect-flash");
 const methodOverride = require("method-override");
@@ -10,6 +10,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const catchAsync = require("./utils/catchAsync");
 const User = require("./models/user");
+const axios = require("axios");
 
 mongoose.connect("mongodb://localhost:27017/jeosooji", {
   useNewUrlParser: true,
@@ -23,6 +24,9 @@ db.once("open", () => {
 });
 
 const app = express();
+
+const thingSpeak_KEY = "TJINH2I1U11WNSLU";
+const thingSpeak_ID = "1395732";
 
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
@@ -60,8 +64,14 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/", (req, res) => {
-  res.render("home");
+app.get("/", async (req, res) => {
+  const response = await axios.get(
+    `https://api.thingspeak.com/channels/${thingSpeak_ID}/feeds.json?api_key=${thingSpeak_KEY}`
+  );
+  const feeds = response.data.feeds;
+  res.render("home", {
+    feeds: feeds,
+  });
 });
 
 app.get("/register", (req, res) => {
@@ -105,7 +115,7 @@ app.post(
     failureFlash: true,
     failureRedirect: "/login",
     successFlash: true,
-    successRedirect: "/admin",
+    successRedirect: "/",
   })
 );
 
@@ -118,6 +128,22 @@ app.get("/logout", (req, res) => {
     req.flash("success", "로그아웃");
     res.redirect("/");
   });
+});
+
+app.get("/data", async (req, res) => {
+  if (!req.isAuthenticated()) {
+    req.flash("error", "관리자 로그인 필요");
+    return res.redirect("/login");
+  }
+  try {
+    const response = await axios.get(
+      `https://api.thingspeak.com/channels/${thingSpeak_ID}/feeds.json?api_key=${thingSpeak_KEY}`
+    );
+    res.json(response.data.feeds);
+  } catch (error) {
+    console.error("Error fetching data from ThingSpeak:", error);
+    res.status(500).json({ error: "Error fetching data" });
+  }
 });
 
 app.listen(3000, () => {
