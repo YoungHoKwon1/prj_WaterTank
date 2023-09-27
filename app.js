@@ -31,6 +31,7 @@ const thingSpeak_ID = "1395732";
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
+app.use(methodOverride("_method"));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("__method"));
@@ -69,9 +70,29 @@ app.get("/", async (req, res) => {
     `https://api.thingspeak.com/channels/${thingSpeak_ID}/feeds.json?api_key=${thingSpeak_KEY}`
   );
   const feeds = response.data.feeds;
+  const locations = await Location.find();
   res.render("home", {
     feeds: feeds,
+    locations: locations,
   });
+});
+
+app.get("/location/:id", async (req, res) => {
+  const location = await Location.findById(req.params.id);
+  res.render("location", { location });
+});
+
+app.delete("/location/:id", async (req, res) => {
+  const { id } = req.params;
+  if (!req.isAuthenticated()) {
+    req.flash("error", "관리자 로그인 필요");
+    res.redirect(`/location/${id}`);
+  } else {
+    await Location.findByIdAndDelete(id);
+    res.send(
+      "<script>window.opener.location.reload(); window.close();</script>"
+    );
+  }
 });
 
 app.get("/register", (req, res) => {
@@ -102,6 +123,16 @@ app.post(
       req.flash("error", e.message);
       res.redirect("/register");
     }
+  })
+);
+
+app.post(
+  "/admin",
+  catchAsync(async (req, res) => {
+    const { name, address, address2 } = req.body;
+    const location = new Location({ name, address, address2 });
+    await location.save();
+    res.redirect("/");
   })
 );
 
