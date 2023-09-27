@@ -6,8 +6,10 @@
     <title>JEOSOOJI</title>
     <script
       type="text/javascript"
-      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b50b4f49e5237883c18078faad157119&libraries=services,clusterer"
+      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b50b4f49e5237883c18078faad157119&libraries=services,clusterer,drawing"
     ></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment"></script>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -59,6 +61,7 @@
               name="btnradio"
               id="btnradio1"
               autocomplete="off"
+              value="1"
               checked
             />
             <label class="btn btn-outline-primary" for="btnradio1"
@@ -71,6 +74,7 @@
               name="btnradio"
               id="btnradio2"
               autocomplete="off"
+              value="2"
             />
             <label class="btn btn-outline-primary" for="btnradio2"
               >담수호</label
@@ -82,9 +86,11 @@
               name="btnradio"
               id="btnradio3"
               autocomplete="off"
+              value="3"
             />
             <label class="btn btn-outline-primary" for="btnradio3">검색</label>
           </div>
+          <div class="ms-2" id="board"></div>
         </div>
       </div>
     </div>
@@ -108,16 +114,100 @@
     </style>
 
     <script>
-      var container = document.getElementById("map");
-      var options = {
-        center: new kakao.maps.LatLng(35.7, 127.5),
-        level: 13,
-      };
-      var map = new kakao.maps.Map(container, options);
-      var mapTypeControl = new kakao.maps.MapTypeControl();
-      map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
-      var zoomControl = new kakao.maps.ZoomControl();
-      map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+            const feeds = <%- JSON.stringify(feeds) %>;
+            const locations = <%- JSON.stringify(locations) %>;
+
+            var container = document.getElementById("map");
+            var options = {
+              center: new kakao.maps.LatLng(35.7, 127.5),
+              level: 13,
+            };
+            var map = new kakao.maps.Map(container, options);
+            var mapTypeControl = new kakao.maps.MapTypeControl();
+            map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
+            var zoomControl = new kakao.maps.ZoomControl();
+            map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+
+            var geocoder = new kakao.maps.services.Geocoder();
+
+            for (var i = 0; i < locations.length; i++) {
+              var iwContent = '<div style="padding:5px;">' + locations[i].name + '</div>';
+
+              geocoder.addressSearch(locations[i].address, createMarkerCallback(iwContent, i));
+
+              function createMarkerCallback(content, locationIndex) {
+                return function (result, status) {
+                  if (status === kakao.maps.services.Status.OK) {
+                    var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+                    var marker = new kakao.maps.Marker({
+                      map: map,
+                      position: coords,
+                    });
+
+                    kakao.maps.event.addListener(marker, 'mouseover', function () {
+
+                      infowindow.setContent(content);
+                      infowindow.open(map, marker);
+                    });
+
+                    kakao.maps.event.addListener(marker, 'mouseout', function () {
+                      infowindow.close();
+                    });
+
+                    kakao.maps.event.addListener(marker, 'click', function() {
+                      window.open(`/location/${locations[locationIndex]._id}`, '_blank', 'width=600,height=300, top=' + (window.innerHeight - 500) / 2 + ', left=' + (window.innerWidth - 500) / 2);
+                    });
+                  }
+                };
+              }
+            }
+
+      var infowindow = new kakao.maps.InfoWindow({
+          content : iwContent
+      });
+
+            function updateBoardContent() {
+              var selectedRadio = document.querySelector(
+                'input[name="btnradio"]:checked'
+              ).value;
+              var boardDiv = document.getElementById("board");
+
+              boardDiv.innerHTML = "";
+
+              switch (selectedRadio) {
+                case "1":
+                  boardDiv.innerHTML = `<%- include('./partials/reservoir') %>`;
+                  break;
+                case "2":
+                  boardDiv.innerHTML = `<%- include('./partials/freshWaterLake') %>`;
+                  break;
+                case "3":
+                  boardDiv.innerHTML = `<%- include('./partials/searchResults') %>`;
+                  break;
+                default:
+                  boardDiv.innerHTML = `<%- include('./partials/reservoir') %>`;
+                  break;
+              }
+            }
+
+            var radioButtons = document.querySelectorAll('input[name="btnradio"]');
+            radioButtons.forEach(function (radio) {
+              radio.addEventListener("change", updateBoardContent);
+            });
+
+            document.addEventListener("DOMContentLoaded", function () {
+              var searchButton = document.querySelector(".btn-success");
+              var searchRadio = document.querySelector('input[value="3"]');
+
+              searchButton.addEventListener("click", function (e) {
+                e.preventDefault();
+                searchRadio.checked = true;
+                updateBoardContent();
+              });
+            });
+
+            updateBoardContent();
     </script>
   </body>
 </html>
