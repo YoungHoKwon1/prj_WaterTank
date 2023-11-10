@@ -1,4 +1,6 @@
-// github test123
+/* TODO:
+navbarTop.ejs
+*/
 const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
@@ -13,7 +15,9 @@ const catchAsync = require("./utils/catchAsync");
 const User = require("./models/user");
 const axios = require("axios");
 
-mongoose.connect("mongodb://localhost:27017/jeosooji", {
+//MongoServerSelectionError: connect ECONNREFUSED ::1:27017
+//localhost -> 0.0.0.0
+mongoose.connect("mongodb://0.0.0.0:27017/jeosooji", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -177,6 +181,14 @@ app.get("/data", async (req, res) => {
     res.status(500).json({ error: "Error fetching data" });
   }
 });
+
+app.get("/reservoirData", async (req, res) => {
+  res.render("reservoirData")
+})
+
+app.get("/userData", async (req, res) => {
+  res.render("userData")
+})
 
 app.listen(3000, () => {
   console.log("serving on port 3000");

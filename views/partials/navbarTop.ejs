@@ -1,0 +1,36 @@
+<%
+/*
+Description : Navigation bar on the top of the each page
+https://getbootstrap.kr/docs/5.3/components/navs-tabs/
+- tab with drop down
+
+login : Admin
+- data page
+- basic info
+    - user info page
+    - reservoir info page
+- settings page
+
+login : User
+- data page(no data valid)
+*/
+%>
+
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link" aria-current="page" href="/">대시보드</a>
+  </li>
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">기초정보</a>
+    <ul class="dropdown-menu">
+      <li><a class="dropdown-item" href="/reservoirData">저수지 정보</a></li>
+      <li><a class="dropdown-item" href="/userData">사용자 정보</a></li>
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#">설정</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+  </li>
+</ul>
