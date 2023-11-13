@@ -1,3 +1,15 @@
+<!--
+Description : Display current user data and add, edit, save, delete, update avaliable
+https://getbootstrap.kr/docs/5.3/forms/layout/
+- form grid
+https://getbootstrap.kr/docs/5.3/components/card/
+- card body
+
+
+TODO:
+- DB -> 관할 저수지 표기
+- DB -> user table 불러오기
+-->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,7 +25,97 @@
 
 <body>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-  <%- include('./partials/navbarTop') %>
+
+  <nav>
+    <%- include('./partials/navbarTop') %>
+  </nav>
+
+  <main>
+    <div class="container-fluid">
+      <div class="card" style="margin-top:15px">
+        <div class="card-body">
+          <h1>사용자 추가</h1>
+          <form action="/adadad" method="GET">
+            <button class="btn btn-primary">추가</button>
+            <button type="button" class="btn btn-secondary">수정</button>
+            <button type="button" class="btn btn-warning">저장</button>
+            <button type="button" class="btn btn-danger">삭제</button>
+
+            <div class="row" style="margin-top:15px">
+              <div class="col">
+                <label class="form-label" for="inputName">이름</label>
+                <input type="text" class="form-control" id="inputName" placeholder="이름을 입력하세요">
+              </div>
+              <div class="col">
+                <label class="form-label" for="inputCompany">회사</label>
+                <input type="text" class="form-control" id="inputCompany" placeholder="회사를 입력하세요">
+              </div>
+              <div class="col">
+                <label class="form-label" for="inputPhone">전화번호</label>
+                <input type="text" class="form-control" id="inputPhone" placeholder="전화번호를 입력하세요">
+              </div>
+              <div class="col">
+                <label class="form-label" for="inputAddress">주소</label>
+                <input type="text" class="form-control" id="inputAddress" placeholder="주소를 입력하세요">
+              </div>
+            </div>
+
+            <div class="row" style="margin-top:15px">
+              <div class="col">
+                <label class="form-label" for="inputUserName">사용자명</label>
+                <input type="text" class="form-control" id="inputUserName" placeholder="지점이름을 입력하세요">
+              </div>
+              <div class="col">
+                <label class="form-label" for="inputPassword">비밀번호</label>
+                <input type="text" class="form-control" id="inputPassword" placeholder="관리번호를 입력하세요">
+              </div>
+              <div class="col">
+                <label class="form-label" for="selectUserType">구분</label>
+                <select type="text" class="form-select" id="selectUserType" name="inputReservoirRsvtype">
+                  <option value="0">일반 사용자</option>
+                  <option value="1">관리자</option>
+                </select>
+              </div>
+              <div class="col">
+                <label class="form-label" for="inchargedReservoir">관할 저수지</label>
+                <select type="text" class="form-select" id="inchargedReservoir" name="inchargedReservoir">
+                  <!--DB->관할 저수지 표기-->
+                  <option value="0">체크박스+저수지번호+저수지이름</option>
+                </select>
+              </div>
+            </div>
+          </form>
+
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">선택</th>
+                  <th scope="col">번호</th>
+
+                  <th scope="col">사용자명(Username)</th>
+                  <th scope="col">비밀번호(Password)</th>
+                  <th scope="col">권한</th>
+                  <th scope="col">회사명</th>
+
+                  <th scope="col">전화번호</th>
+                  <th scope="col">주소</th>
+                  <th scope="col">모니터링 저수지</th>
+                  <th scope="col">등록일</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <!--DB -> user table 불러오기-->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+
 </body>
 
 </html>

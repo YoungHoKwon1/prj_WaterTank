@@ -190,6 +190,10 @@ app.get("/userData", async (req, res) => {
   res.render("userData")
 })
 
+app.get("/settings", async (req, res) => {
+  res.render("settings")
+})
+
 app.listen(3000, () => {
   console.log("serving on port 3000");
 });

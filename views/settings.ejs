@@ -1,0 +1,70 @@
+<!--
+Description : setting page, monitoring interver(min), img quality managing
+https://getbootstrap.kr/docs/5.3/forms/layout/
+- form grid
+https://getbootstrap.kr/docs/5.3/components/card/
+- card body
+
+
+TODO:
+
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JEOSOOJI</title>
+  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b50b4f49e5237883c18078faad157119&libraries=services,clusterer,drawing"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/moment"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+</head>
+
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+  <nav>
+    <%- include('./partials/navbarTop') %>
+  </nav>
+
+  <main>
+    <div class="container-fluid">
+      <div class="card" style="margin-top:15px">
+        <div class="card-body">
+          <h1>설정</h1>
+          <form action="/adadad" method="GET">
+            <button class="btn btn-primary">변경</button>
+
+            <div class="row" style="margin-top:15px">
+              <div class="col">
+                <label class="form-label" for="idGlobalCommInterval">모니터링주주기(분)</label>
+                <input type="number" class="form-control" id="idGlobalCommInterval" placeholder="10">
+              </div>
+              <div class="col">
+                <label class="form-label" for="imageSizeSelect">구분</label>
+                <select type="text" class="form-select" id="imageSizeSelect" name="imageSizeSelect">
+                  <option value="0">저해상도</option>
+                  <option value="1">고해상도</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+              <label class="form-check-label" for="flexCheckDefault">
+                전체 적용
+              </label>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+
+
+</body>
+
+</html>
