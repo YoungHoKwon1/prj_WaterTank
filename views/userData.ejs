@@ -36,11 +36,14 @@ TODO:
         <div class="card-body">
           <h1>사용자 추가</h1>
           <form action="/adadad" method="GET">
+
+            <!--BUTTONS-->
             <button class="btn btn-primary">추가</button>
             <button type="button" class="btn btn-secondary">수정</button>
             <button type="button" class="btn btn-warning">저장</button>
             <button type="button" class="btn btn-danger">삭제</button>
 
+            <!--INPUTS-->
             <div class="row" style="margin-top:15px">
               <div class="col">
                 <label class="form-label" for="inputName">이름</label>
@@ -79,13 +82,13 @@ TODO:
               <div class="col">
                 <label class="form-label" for="inchargedReservoir">관할 저수지</label>
                 <select type="text" class="form-select" id="inchargedReservoir" name="inchargedReservoir">
-                  <!--DB->관할 저수지 표기-->
+                  <!--TODO: DB->관할 저수지 표기-->
                   <option value="0">체크박스+저수지번호+저수지이름</option>
                 </select>
               </div>
             </div>
           </form>
-
+          <!--TABLE-->
           <div class="table-responsive">
             <table class="table">
               <thead>
@@ -106,7 +109,7 @@ TODO:
                 </tr>
               </thead>
               <tbody>
-                <!--DB -> user table 불러오기-->
+                <!--TODO: DB -> user table 불러오기-->
               </tbody>
             </table>
           </div>
