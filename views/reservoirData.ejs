@@ -43,22 +43,31 @@ TODO:
             <button type="button" class="btn btn-danger">삭제</button>
 
             <!--INPUTS-->
+            <!--
+            rsv: resorvoid
+            lvl: water level
+            valQuan: valid Quantity
+            senseP: sensing Pressure
+            senseC: sensing Correction
+            lvlC: water level Correction
+            actu: actuator
+            -->
             <div class="row" style="margin-top:15px">
               <div class="col">
-                <label class="form-label" for="inputReservoirName">지점이름</label>
-                <input type="text" class="form-control" id="inputReservoirName" placeholder="지점이름을 입력하세요">
+                <label class="form-label" for="inputRsvName">지점이름</label>
+                <input type="text" class="form-control" id="inputRsvName" placeholder="지점이름을 입력하세요">
               </div>
               <div class="col">
-                <label class="form-label" for="inputReservoirManageid">관리번호</label>
-                <input type="text" class="form-control" id="inputReservoirManageid" placeholder="관리번호를 입력하세요">
+                <label class="form-label" for="inputRsvManageid">관리번호</label>
+                <input type="text" class="form-control" id="inputRsvManageid" placeholder="관리번호를 입력하세요">
               </div>
               <div class="col">
-                <label class="form-label" for="inputReservoirAddress">주소</label>
-                <input type="text" class="form-control" id="inputReservoirAddress" placeholder="주소를 입력하세요">
+                <label class="form-label" for="inputRsvAddress">주소</label>
+                <input type="text" class="form-control" id="inputRsvAddress" placeholder="주소를 입력하세요">
               </div>
               <div class="col">
-                <label class="form-label" for="inputReservoirRsvtype">제어</label>
-                <select type="text" class="form-select" id="inputReservoirRsvtype" name="inputReservoirRsvtype">
+                <label class="form-label" for="inputRsvType">제어</label>
+                <select type="text" class="form-select" id="inputRsvType" name="inputRsvType">
                   <option value="0">수위 모니터링</option>
                   <option value="1">수문 제어</option>
                 </select>
@@ -67,65 +76,46 @@ TODO:
 
             <div class="row" style="margin-top:15px">
               <div class="col">
-                <label class="form-label" for="inputReservoirLvlDead">사수위(m)</label>
-                <input type="text" class="form-control" id="inputReservoirLvlDead" placeholder="사수위를 입력하세요">
+                <label class="form-label" for="inputRsvLvlDead">사수위(m)</label>
+                <input type="text" class="form-control" id="inputRsvLvlDead" placeholder="사수위를 입력하세요">
               </div>
               <div class="col">
-                <label class="form-label" for="inputReservoirLvlHigh">만수위(m)</label>
-                <input type="text" class="form-control" id="inputReservoirLvlHigh" placeholder="만수위를 입력하세요">
+                <label class="form-label" for="inputRsvLvlHigh">만수위(m)</label>
+                <input type="text" class="form-control" id="inputRsvLvlHigh" placeholder="만수위를 입력하세요">
               </div>
               <div class="col">
-                <label class="form-label" for="inputReservoirLvlFlood">홍수위(m)</label>
-                <input type="text" class="form-control" id="inputReservoirLvlFlood" placeholder="홍수위를 입력하세요">
+                <label class="form-label" for="inputRsvLvlFlood">홍수위(m)</label>
+                <input type="text" class="form-control" id="inputRsvLvlFlood" placeholder="홍수위를 입력하세요">
               </div>
               <div class="col">
-                <label class="form-label" for="inputReservoirHeight">제방높이(m)</label>
-                <input type="text" class="form-control" id="inputReservoirHeight" placeholder="제방높이를 입력하세요">
-              </div>
-            </div>
-
-            <div class="row" style="margin-top:15px">
-              <div class="col">
-                <label class="form-label" for="inputReservoirLvlDead">사수위(m)</label>
-                <input type="text" class="form-control" id="inputReservoirLvlDead" placeholder="사수위를 입력하세요">
-              </div>
-              <div class="col">
-                <label class="form-label" for="inputReservoirLvlHigh">만수위(m)</label>
-                <input type="text" class="form-control" id="inputReservoirLvlHigh" placeholder="만수위를 입력하세요">
-              </div>
-              <div class="col">
-                <label class="form-label" for="inputReservoirLvlFlood">홍수위(m)</label>
-                <input type="text" class="form-control" id="inputReservoirLvlFlood" placeholder="홍수위를 입력하세요">
-              </div>
-              <div class="col">
-                <label class="form-label" for="inputReservoirHeight">제방높이(m)</label>
-                <input type="text" class="form-control" id="inputReservoirHeight" placeholder="제방높이를 입력하세요">
+                <label class="form-label" for="inputRsvHeight">제방높이(m)</label>
+                <input type="text" class="form-control" id="inputRsvHeight" placeholder="제방높이를 입력하세요">
               </div>
             </div>
 
             <div class="row" style="margin-top:15px">
               <div class="col">
-                <label class="form-label" for="inputReservoirLvlDead">유효저수량(㎥)</label>
-                <input type="text" class="form-control" id="inputReservoirLvlDead" placeholder="유효저수량을 입력하세요">
+                <label class="form-label" for="inputRsvValQuan">유효저수량(㎥)</label>
+                <input type="text" class="form-control" id="inputRsvValQuan" placeholder="유효저수량을 입력하세요">
               </div>
               <div class="col">
-                <label class="form-label" for="inputReservoirLvlHigh">센싱압력(Kgf/㎠)</label>
-                <input type="text" class="form-control" id="inputReservoirLvlHigh" placeholder="센싱 압력 최대값을 입력하세요">
+                <label class="form-label" for="inputRsvSenseP">센싱압력(Kgf/㎠)</label>
+                <input type="text" class="form-control" id="inputRsvSenseP" placeholder="센싱 압력 최대값을 입력하세요">
               </div>
               <div class="col">
-                <label class="form-label" for="inputReservoirLvlFlood">센싱보정(Kgf/㎠)</label>
-                <input type="text" class="form-control" id="inputReservoirLvlFlood" placeholder="센싱 보정값을 입력하세요">
+                <label class="form-label" for="inputRsvSenseC">센싱보정(Kgf/㎠)</label>
+                <input type="text" class="form-control" id="inputRsvSenseC" placeholder="센싱 보정값을 입력하세요">
               </div>
               <div class="col">
-                <label class="form-label" for="inputReservoirHeight">수위보정(m)</label>
-                <input type="text" class="form-control" id="inputReservoirHeight" placeholder="수위 보정값을 입력하세요">
+                <label class="form-label" for="inputRsvLvlC">수위보정(m)</label>
+                <input type="text" class="form-control" id="inputRsvLvlC" placeholder="수위 보정값을 입력하세요">
               </div>
             </div>
 
             <div class="row" style="margin-top:15px">
               <div class="col">
-                <label class="form-label" for="inputReservoirIncharge">관할</label>
-                <input type="text" class="form-control" id="inputReservoirIncharge" placeholder="관할을 입력하세요">
+                <label class="form-label" for="inputRsvIncharge">관할</label>
+                <input type="text" class="form-control" id="inputRsvIncharge" placeholder="관할을 입력하세요">
               </div>
               <div class="col">
                 <label class="form-label" for="inputDeviceMAC">장비MAC</label>
@@ -143,12 +133,12 @@ TODO:
 
             <div class="row" style="margin-top:15px">
               <div class="col">
-                <label class="form-label" for="inputActuatorWaitTime">경보대기</label>
-                <input type="text" class="form-control" id="inputActuatorWaitTime" placeholder="Actuator 경보 대기시간(초)을 입력하세요">
+                <label class="form-label" for="inputActuWaitTime">경보대기</label>
+                <input type="text" class="form-control" id="inputActuWaitTime" placeholder="Actuator 경보 대기시간(초)을 입력하세요">
               </div>
               <div class="col">
-                <label class="form-label" for="inputActuatorTime">경보유지</label>
-                <input type="text" class="form-control" id="inputActuatorTime" placeholder="Actuator 경보 유지시간(초)을 입력하세요">
+                <label class="form-label" for="inputActuTime">경보유지</label>
+                <input type="text" class="form-control" id="inputActuTime" placeholder="Actuator 경보 유지시간(초)을 입력하세요">
               </div>
             </div>
           </form>

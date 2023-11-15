@@ -1,5 +1,5 @@
 /* TODO:
-navbarTop.ejs
+
 */
 const express = require("express");
 const path = require("path");
@@ -15,6 +15,7 @@ const catchAsync = require("./utils/catchAsync");
 const User = require("./models/user");
 const axios = require("axios");
 
+//modified
 //MongoServerSelectionError: connect ECONNREFUSED ::1:27017
 //localhost -> 0.0.0.0
 mongoose.connect("mongodb://0.0.0.0:27017/jeosooji", {
