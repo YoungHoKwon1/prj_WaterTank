@@ -1,5 +1,8 @@
-/* TODO:
-
+/*
+TODO:
+1. navbar 위로 검색 로그인 올리기 
+2. admin login으로 바꾸고 로그아웃 생기는게아니라 로그인/로그아웃으로
+3. 데이터페이지 만들기
 */
 const express = require("express");
 const path = require("path");
@@ -182,6 +185,10 @@ app.get("/data", async (req, res) => {
     res.status(500).json({ error: "Error fetching data" });
   }
 });
+
+app.get("/datas", async (req, res) => {
+  res.render("datas")
+})
 
 app.get("/reservoirData", async (req, res) => {
   res.render("reservoirData")
