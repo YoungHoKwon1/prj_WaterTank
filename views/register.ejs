@@ -1,40 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>회원가입</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
+      integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I"
+      crossorigin="anonymous"
+    />
+    <script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+    <style>
+      input[type="number"]::-webkit-outer-spin-button,
+      input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+    </style>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>회원가입</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous" />
-  <script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
-  <style>
-    input[type="number"]::-webkit-outer-spin-button,
-    input[type="number"]::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
-  </style>
-</head>
-
-<body>
-  <div class="container d-flex justify-content-center align-items-center mt-4">
-    <div>
-      <%- include('./partials/flash')%>
-      <div class="card shadow" style="width: 600px">
-        <div class="card-body" style="width: 600px">
-          <h3>회원가입</h3>
-          <form action="/register" method="POST" class="validated-form" novalidate>
-            <div class="mb-2">
-              <label class="form-label" for="username">이름</label>
-              <div class="d-flex">
-                <input class="form-control" type="text" id="username" name="username" autofocus required />
-                <!-- <button class="btn btn-primary" style="width: 180px">
+  <body>
+    <div class="container d-flex justify-content-center align-items-center mt-4">
+      <div>
+        <%- include('./partials/flash')%>
+        <div class="card shadow" style="width: 600px">
+          <div class="card-body" style="width: 600px">
+            <h3>회원가입</h3>
+            <form action="/register" method="POST" class="validated-form" novalidate>
+              <div class="mb-2">
+                <label class="form-label" for="username">이름</label>
+                <div class="d-flex">
+                  <input class="form-control" type="text" id="username" name="username" autofocus required />
+                  <!-- <button class="btn btn-primary" style="width: 180px">
                     인증번호 전송
                   </button> -->
+                </div>
               </div>
-            </div>
 
-            <!-- <div class="mb-2">
+              <!-- <div class="mb-2">
                 <label class="form-label" for="certificationNumber"
                   >인증번호</label
                 >
@@ -53,7 +57,7 @@
                 </div>
               </div> -->
 
-            <!-- <div class="mb-2">
+              <!-- <div class="mb-2">
                 <label class="form-label" for="repassword">비밀번호 확인</label>
                 <input
                   class="form-control"
@@ -64,17 +68,17 @@
                 />
               </div> -->
 
-            <div class="mb-2">
-              <label class="form-label" for="email">이메일</label>
-              <input class="form-control" type="email" id="email" name="email" required />
-            </div>
+              <div class="mb-2">
+                <label class="form-label" for="email">이메일</label>
+                <input class="form-control" type="email" id="email" name="email" required />
+              </div>
 
-            <div class="mb-2">
-              <label class="form-label" for="password">비밀번호</label>
-              <input class="form-control" type="password" id="password" name="password" required />
-            </div>
+              <div class="mb-2">
+                <label class="form-label" for="password">비밀번호</label>
+                <input class="form-control" type="password" id="password" name="password" required />
+              </div>
 
-            <!-- <div class="mb-2">
+              <!-- <div class="mb-2">
                 <label class="form-label" for="office">사무실번호</label>
                 <div class="d-flex">
                   <input
@@ -124,16 +128,23 @@
                 </div>
               </div> -->
 
-            <div class="d-flex mt-3">
-              <button class="btn btn-success btn-block">등록</button>
-            </div>
-          </form>
+              <div class="d-flex mt-3">
+                <button class="btn btn-success btn-block">등록</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
-</body>
-
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"
+      integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>

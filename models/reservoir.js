@@ -15,28 +15,28 @@ lvlC: water level Correction
 actu: actuator
 */
 const ReservoirSchema = new Schema({
-    name: String,
-    manageId: int,
-    address: String,
-    rsvType: String,
+  name: String,
+  manageId: Number,
+  address: String,
+  rsvType: String,
 
-    lvlDead: float,
-    lvlHigh: float,
-    lvlFlood: float,
-    height: float,
+  lvlDead: Number,
+  lvlHigh: Number,
+  lvlFlood: Number,
+  height: Number,
 
-    valQuan: float,
-    senseP: float,
-    senseC: float,
-    lvlC: float,
+  valQuan: Number,
+  senseP: Number,
+  senseC: Number,
+  lvlC: Number,
 
-    incharge: String,
-    MAC: String,
-    phone: int,
-    commInterver: int,
+  incharge: String,
+  MAC: String,
+  phone: Number,
+  commInterver: Number,
 
-    actuWait: int,
-    actuTime: int,
+  actuWait: Number,
+  actuTime: Number,
 });
 
-module.exports = mongoose.model("Location", ReservoirSchema);
+module.exports = mongoose.model("Reservoir", ReservoirSchema);

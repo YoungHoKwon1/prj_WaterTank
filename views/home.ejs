@@ -1,167 +1,186 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JEOSOOJI</title>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b50b4f49e5237883c18078faad157119&libraries=services,clusterer,drawing"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JEOSOOJI</title>
-  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b50b4f49e5237883c18078faad157119&libraries=services,clusterer,drawing"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/moment"></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
-</head>
-
-<body>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-  <%- include('./partials/navbarTop') %>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-8">
-        <div id="map" style="width: 100%; height: 100vh"></div>
-      </div>
-      <div class="col flex-grow-1">
-        <!--<nav class="navbar bg-body-tertiary">
-          <div class="container-fluid">
-            <form class="d-flex" role="search">
-              <input class="form-control me-2 ms-2" type="search" placeholder="Search" aria-label="Search" />
-              <button class="btn btn-success me-2">Search</button>
-              <a class="btn btn-primary me-2" href="/admin" role="button">Admin</a>
-              <% if(currentUser) {%>
-              <a class="btn btn-danger" href="/logout" role="button">Logout</a>
-              <% } %>
-            </form>
-          </div>
-        </nav>-->
-        <div class="btn-group ms-2" role="group" aria-label="Basic radio toggle button group">
-          <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" value="1" checked />
-          <label class="btn btn-outline-primary" for="btnradio1">저수지</label>
-
-          <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" value="2" />
-          <label class="btn btn-outline-primary" for="btnradio2">담수호</label>
-
-          <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off" value="3" />
-          <label class="btn btn-outline-primary" for="btnradio3">검색</label>
+  <body>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+    <%- include('./partials/navbarTop') %>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-6">
+          <div id="map" style="width: 100%; height: 100vh"></div>
         </div>
-        <div class="ms-2" id="board"></div>
+        <div class="col-md-6">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-3">
+                <div class="card bg-primary text-white mb-2 mt-2" style="width: 150px">
+                  <div class="card-body">수위 경보</div>
+                  <div class="card-footer d-flex align-items-center justify-content-between">
+                    <div class="small text-white">1</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="card bg-warning text-white mb-2 mt-2" style="width: 150px">
+                  <div class="card-body">수문 열림</div>
+                  <div class="card-footer d-flex align-items-center justify-content-between">
+                    <div class="small text-white">2</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="card bg-success text-white mb-2 mt-2" style="width: 150px">
+                  <div class="card-body">배터리 경보</div>
+                  <div class="card-footer d-flex align-items-center justify-content-between">
+                    <div class="small text-white">3</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="card bg-danger text-white mb-2 mt-2" style="width: 150px">
+                  <div class="card-body">액츄에이터 경보</div>
+                  <div class="card-footer d-flex align-items-center justify-content-between">
+                    <div class="small text-white">4</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex justify-content-between">
+              <div class="btn-group mb-1" role="group">
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" value="1" checked />
+                <label class="btn btn-outline-primary" for="btnradio1">상세정보</label>
+
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" value="2" />
+                <label class="btn btn-outline-primary" for="btnradio2">그래프</label>
+              </div>
+              <form class="d-flex" role="search">
+                <input class="form-control me-2 ms-2" type="search" placeholder="Search" aria-label="Search" />
+                <button class="btn btn-outline-primary me-2">Search</button>
+              </form>
+            </div>
+            <div id="board"><%-include('./partials/reservoirDetails')%></div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
 
-  <style>
-    .navbar {
-      margin: 0;
-    }
-
-    .container-fluid {
-      padding: 0;
-    }
-
-    .col-md-8 {
-      padding: 0;
-    }
-
-    .col {
-      padding: 0;
-    }
-  </style>
-
-  <script>
-    const feeds = <%- JSON.stringify(feeds) %>;
-    const locations = <%- JSON.stringify(locations) %>;
-
-    var container = document.getElementById("map");
-    var options = {
-      center: new kakao.maps.LatLng(35.7, 127.5),
-      level: 13,
-    };
-    var map = new kakao.maps.Map(container, options);
-    var mapTypeControl = new kakao.maps.MapTypeControl();
-    map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
-    var zoomControl = new kakao.maps.ZoomControl();
-    map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
-
-    var geocoder = new kakao.maps.services.Geocoder();
-
-    for (var i = 0; i < locations.length; i++) {
-      var iwContent = '<div style="padding:5px;">' + locations[i].name + '</div>';
-
-      geocoder.addressSearch(locations[i].address, createMarkerCallback(iwContent, i));
-
-      function createMarkerCallback(content, locationIndex) {
-        return function(result, status) {
-          if (status === kakao.maps.services.Status.OK) {
-            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-
-            var marker = new kakao.maps.Marker({
-              map: map,
-              position: coords,
-            });
-
-            kakao.maps.event.addListener(marker, 'mouseover', function() {
-
-              infowindow.setContent(content);
-              infowindow.open(map, marker);
-            });
-
-            kakao.maps.event.addListener(marker, 'mouseout', function() {
-              infowindow.close();
-            });
-
-            kakao.maps.event.addListener(marker, 'click', function() {
-              window.open(`/location/${locations[locationIndex]._id}`, '_blank', 'width=600,height=300, top=' + (window.innerHeight - 500) / 2 + ', left=' + (window.innerWidth - 500) / 2);
-            });
-          }
-        };
+    <style>
+      .navbar {
+        margin: 0;
       }
-    }
 
-    var infowindow = new kakao.maps.InfoWindow({
-      content: iwContent
-    });
-
-
-    function updateBoardContent() {
-      var selectedRadio = document.querySelector(
-        'input[name="btnradio"]:checked'
-      ).value;
-      var boardDiv = document.getElementById("board");
-
-      boardDiv.innerHTML = "";
-
-      switch (selectedRadio) {
-        case "1":
-          boardDiv.innerHTML = `<%- include('./partials/reservoir') %>`;
-          break;
-        case "2":
-          boardDiv.innerHTML = `<%- include('./partials/freshWaterLake') %>`;
-          break;
-        case "3":
-          boardDiv.innerHTML = `<%- include('./partials/searchResults') %>`;
-          break;
-        default:
-          boardDiv.innerHTML = `<%- include('./partials/reservoir') %>`;
-          break;
+      .container-fluid {
+        padding: 0;
       }
-    }
 
-    var radioButtons = document.querySelectorAll('input[name="btnradio"]');
-    radioButtons.forEach(function(radio) {
-      radio.addEventListener("change", updateBoardContent);
-    });
+      .col-md-8 {
+        padding: 0;
+      }
 
-    document.addEventListener("DOMContentLoaded", function() {
-      var searchButton = document.querySelector(".btn-success");
-      var searchRadio = document.querySelector('input[value="3"]');
+      .col {
+        padding: 0;
+      }
+    </style>
 
-      searchButton.addEventListener("click", function(e) {
-        e.preventDefault();
-        searchRadio.checked = true;
-        updateBoardContent();
+    <script>
+      const feeds = <%- JSON.stringify(feeds) %>;
+      const locations = <%- JSON.stringify(locations) %>;
+
+      let container = document.getElementById("map");
+      let options = {
+        center: new kakao.maps.LatLng(35.7, 128),
+        level: 12,
+      };
+      let map = new kakao.maps.Map(container, options);
+      let mapTypeControl = new kakao.maps.MapTypeControl();
+      map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
+      let zoomControl = new kakao.maps.ZoomControl();
+      map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+
+      let geocoder = new kakao.maps.services.Geocoder();
+
+      for (let i = 0; i < locations.length; i++) {
+        let iwContent = '<div style="padding:5px;">' + locations[i].name + '</div>';
+
+        geocoder.addressSearch(locations[i].address, createMarkerCallback(iwContent, i));
+
+        function createMarkerCallback(content, locationIndex) {
+          return function(result, status) {
+            if (status === kakao.maps.services.Status.OK) {
+              let coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+              let marker = new kakao.maps.Marker({
+                map: map,
+                position: coords,
+              });
+
+              kakao.maps.event.addListener(marker, 'mouseover', function() {
+
+                infowindow.setContent(content);
+                infowindow.open(map, marker);
+              });
+
+              kakao.maps.event.addListener(marker, 'mouseout', function() {
+                infowindow.close();
+              });
+
+              kakao.maps.event.addListener(marker, 'click', function() {
+                window.open(`/location/${locations[locationIndex]._id}`, '_blank', 'width=600,height=300, top=' + (window.innerHeight - 500) / 2 + ', left=' + (window.innerWidth - 500) / 2);
+              });
+            }
+          };
+        }
+      }
+
+      let infowindow = new kakao.maps.InfoWindow({
+        content: iwContent
       });
-    });
 
-    updateBoardContent();
-  </script>
-</body>
+      function updateBoardContent() {
+        var selectedRadio = document.querySelector(
+          'input[name="btnradio"]:checked'
+        ).value;
+        var boardDiv = document.getElementById("board");
 
+        boardDiv.innerHTML = "";
+
+        switch (selectedRadio) {
+          case "1":
+            boardDiv.innerHTML = `<%- include('./partials/reservoirDetails') %>`;
+            break;
+          case "2":
+            boardDiv.innerHTML = `<%- include('./partials/reservoirGraph') %>`;
+            break;
+          default:
+            boardDiv.innerHTML = `<%- include('./partials/reservoirDetails') %>`;
+            break;
+        }
+      }
+
+      var radioButtons = document.querySelectorAll('input[name="btnradio"]');
+      radioButtons.forEach(function (radio) {
+        radio.addEventListener("change", updateBoardContent);
+      });
+
+      updateBoardContent();
+    </script>
+  </body>
 </html>

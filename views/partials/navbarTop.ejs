@@ -16,34 +16,31 @@ login : User
 -->
 
 <ul class="nav nav-tabs">
-  <li class="nav-item">
-    <a class="nav-link" aria-current="page" href="/">대시보드</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="/datas">데이터</a>
-  </li>
-  <li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">기초정보</a>
-    <ul class="dropdown-menu">
-      <li><a class="dropdown-item" href="/reservoirData">저수지 정보</a></li>
-      <li><a class="dropdown-item" href="/userData">사용자 정보</a></li>
-    </ul>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="/settings">설정</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-  </li>
-
-
-  <form class="d-flex" role="search">
-    <input class="form-control me-2 ms-2" type="search" placeholder="Search" aria-label="Search" />
-    <button class="btn btn-success me-2">Search</button>
-    <% if(currentUser) {%>
-    <a class="btn btn-danger" href="/logout" role="button">Logout</a>
-    <% } else { %>
-    <a class="btn btn-primary me-2" href="/login" role="button">Login</a>
-    <% } %>
-  </form>
+  <div class="d-flex justify-content-between">
+    <div class="d-flex">
+      <li class="nav-item">
+        <a class="nav-link" aria-current="page" href="/">대시보드</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/datas">데이터</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">기초정보</a>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="/reservoirData">저수지 정보</a></li>
+          <li><a class="dropdown-item" href="/userData">사용자 정보</a></li>
+        </ul>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/settings">설정</a>
+      </li>
+    </div>
+    <div>
+      <% if(currentUser) {%>
+      <a class="nav-link" href="/logout" role="button">Logout</a>
+      <% } else { %>
+      <a class="nav-link" href="/login" role="button">Login</a>
+      <% } %>
+    </div>
+  </div>
 </ul>

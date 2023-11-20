@@ -6,17 +6,17 @@ const Schema = mongoose.Schema;
 const passportLocalMongoose = require("passport-local-mongoose");
 
 const User2Schema = new Schema({
-    name: String,
-    company: String,
-    phone: String,
-    address: String,
+  name: String,
+  company: String,
+  phone: String,
+  address: String,
 
-    userName: String,
-    password: String,
-    userType: String,
-    incharge: String
+  userName: String,
+  password: String,
+  userType: String,
+  incharge: String,
 });
 
-UserSchema.plugin(passportLocalMongoose);
+User2Schema.plugin(passportLocalMongoose);
 
 module.exports = mongoose.model("User2", User2Schema);

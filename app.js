@@ -1,9 +1,3 @@
-/*
-TODO:
-1. navbar 위로 검색 로그인 올리기 
-2. admin login으로 바꾸고 로그아웃 생기는게아니라 로그인/로그아웃으로
-3. 데이터페이지 만들기
-*/
 const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
@@ -17,6 +11,7 @@ const LocalStrategy = require("passport-local");
 const catchAsync = require("./utils/catchAsync");
 const User = require("./models/user");
 const axios = require("axios");
+const Reservoir = require("./models/reservoir");
 
 //modified
 //MongoServerSelectionError: connect ECONNREFUSED ::1:27017
@@ -75,9 +70,7 @@ app.use((req, res, next) => {
 });
 
 app.get("/", async (req, res) => {
-  const response = await axios.get(
-    `https://api.thingspeak.com/channels/${thingSpeak_ID}/feeds.json?api_key=${thingSpeak_KEY}`
-  );
+  const response = await axios.get(`https://api.thingspeak.com/channels/${thingSpeak_ID}/feeds.json?api_key=${thingSpeak_KEY}`);
   const feeds = response.data.feeds;
   const locations = await Location.find();
   res.render("home", {
@@ -98,9 +91,7 @@ app.delete("/location/:id", async (req, res) => {
     res.redirect(`/location/${id}`);
   } else {
     await Location.findByIdAndDelete(id);
-    res.send(
-      "<script>window.opener.location.reload(); window.close();</script>"
-    );
+    res.send("<script>window.opener.location.reload(); window.close();</script>");
   }
 });
 
@@ -176,9 +167,7 @@ app.get("/data", async (req, res) => {
     return res.redirect("/login");
   }
   try {
-    const response = await axios.get(
-      `https://api.thingspeak.com/channels/${thingSpeak_ID}/feeds.json?api_key=${thingSpeak_KEY}`
-    );
+    const response = await axios.get(`https://api.thingspeak.com/channels/${thingSpeak_ID}/feeds.json?api_key=${thingSpeak_KEY}`);
     res.json(response.data.feeds);
   } catch (error) {
     console.error("Error fetching data from ThingSpeak:", error);
@@ -187,20 +176,52 @@ app.get("/data", async (req, res) => {
 });
 
 app.get("/datas", async (req, res) => {
-  res.render("datas")
-})
+  res.render("datas");
+});
 
 app.get("/reservoirData", async (req, res) => {
-  res.render("reservoirData")
-})
+  res.render("reservoirData");
+});
+
+app.post(
+  "/reservoirData",
+  catchAsync(async (req, res) => {
+    const { name, manageId, address, rsvType, lvlDead, lvlHigh, lvlFlood, height, valQuan, senseP, senseC, lvlC, incharge, MAC, phone, commInterver, actuWait, actuTime } =
+      req.body;
+    const reservoir = new Reservoir({
+      name,
+      manageId,
+      address,
+      rsvType,
+      lvlDead,
+      lvlHigh,
+      lvlFlood,
+      height,
+      valQuan,
+      senseP,
+      senseC,
+      lvlC,
+      incharge,
+      MAC,
+      phone,
+      commInterver,
+      actuWait,
+      actuTime,
+    });
+    await reservoir.save();
+    res.redirect("/reservoirData");
+  })
+);
 
 app.get("/userData", async (req, res) => {
-  res.render("userData")
-})
+  res.render("userData");
+});
 
 app.get("/settings", async (req, res) => {
-  res.render("settings")
-})
+  res.render("settings");
+});
+
+app.put("/settings", async (req, res) => {});
 
 app.listen(3000, () => {
   console.log("serving on port 3000");

@@ -1,0 +1,115 @@
+<div class="mt-1 d-flex flex-column" style="width: 100%">
+  <h6>💧저수지 상세정보</h6>
+  <div class="d-flex" style="width: 100%">
+    <div style="width: 30%"></div>
+    <div style="width: 70%">
+      <table class="table">
+        <tbody id="reservoirDetailTable">
+          <tr>
+            <th scope="row">지점이름</th>
+            <td style="font-weight: bold"></td>
+          </tr>
+          <tr>
+            <th scope="row">관리번호</th>
+            <td></td>
+          </tr>
+          <tr>
+            <th scope="row">홍수/만수/사수위</th>
+            <td></td>
+          </tr>
+          <tr>
+            <th scope="row">소재지</th>
+            <td></td>
+          </tr>
+          <tr>
+            <th scope="row">관할지사</th>
+            <td></td>
+          </tr>
+          <tr>
+            <th scope="row">통신상태</th>
+            <td id="idCommStatus" style="font-weight: normal; color: rgb(0, 0, 0)"></td>
+          </tr>
+          <tr>
+            <th scope="row">모니터링 주기</th>
+            <td>
+              <div style="width: 100%">
+                <input id="idMonitoringslider" type="range" min="0" max="11" value="0" class="slider" style="width: 80%; float: left" />
+                <div id="idMonitoringtext" style="margin-left: 85%">10</div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">계측 수위 (EL.m)</th>
+            <td id="idLevel" style="font-weight: normal; color: rgb(0, 0, 0)"></td>
+          </tr>
+          <tr>
+            <th scope="row">계측값(Kgf/㎠)</th>
+            <td id="idMeasure"></td>
+          </tr>
+          <tr>
+            <th scope="row">저수율</th>
+            <td id="idPercent" style="font-weight: bold; color: rgb(255, 0, 0)"></td>
+          </tr>
+          <tr>
+            <th scope="row">저수량(㎥)</th>
+            <td id="idQuantity"></td>
+          </tr>
+          <tr>
+            <th scope="row">온도</th>
+            <td id="idTemp"></td>
+          </tr>
+          <tr>
+            <th scope="row">시스템 전압</th>
+            <td id="idVoltage"></td>
+          </tr>
+          <tr>
+            <th scope="row">사용데이타</th>
+            <td id="idComm"></td>
+          </tr>
+          <tr>
+            <th scope="row">수문개방(목표값)</th>
+            <td>
+              <div class="row" style="width: 100%">
+                <div class="col-sm">
+                  <button id="idFullClose" type="button" class="btn btn-primary" onclick="fullClose();" disabled="" hidden=""></button>
+                </div>
+                <div class="col-sm">
+                  <button id="idWorkingStop" type="button" class="btn btn-success" onclick="workingStop();" disabled="" hidden=""></button>
+                </div>
+                <div class="col-sm">
+                  <button id="idFullOpen" type="button" class="btn btn-danger" onclick="fullOpen();" disabled="" hidden=""></button>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">부분개폐</th>
+            <td>
+              <div id="idpartOpen" hidden="">사용 <input id="idpartOpenCheck" type="checkbox" onchange="idpartOpenCheckChanged()" /></div>
+              <div style="width: 100%">
+                <input id="idDoorRangeslider" type="range" min="0" max="100" step="10" style="width: 75%; float: left" onchange="openSliderChanged()" disabled="" hidden="" />
+                <p id="idDoortext" style="float: right" hidden=""></p>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row" id="idOpenText">수문열림</th>
+            <td>
+              <div style="width: 100%">
+                <div id="idLeftBar" style="float: left; background-color: red; height: 24px" hidden=""></div>
+                <div id="idRightBar" style="float: left; background-color: blue; height: 24px" hidden=""></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">카메라</th>
+            <td>
+              <button id="idImageCapture" type="button" class="btn btn-primary" onclick="imageCapture();">캡쳐 가능</button>
+              <button id="idImageCaptureDone" type="button" class="btn btn-primary ms-2" onclick="imageShow();">보기</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
