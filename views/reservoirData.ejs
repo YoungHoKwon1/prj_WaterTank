@@ -25,6 +25,7 @@ TODO:
       integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
       crossorigin="anonymous"
     />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   </head>
 
   <body>
@@ -41,12 +42,12 @@ TODO:
         <div class="card" style="margin-top: 15px">
           <div class="card-body">
             <h1>저수지 및 장비 정보 추가</h1>
-            <form action="/reservoirData" method="POST" class="validated-form" novalidate>
-              <!--BUTTONS-->
-              <button type="submit" class="btn btn-primary">추가</button>
-              <!-- <button type="button" class="btn btn-secondary">수정</button>
-              <button type="button" class="btn btn-warning">저장</button>
-              <button type="button" class="btn btn-danger">삭제</button> -->
+            <form action="/reservoirData" method="post">
+              <div>
+                <button class="btn btn-primary">추가</button>
+              </div>
+              <!-- <button type="button" class="btn btn-secondary" name="update">수정</button>
+              <button type="button" class="btn btn-danger" name="delete">삭제</button> -->
 
               <!--INPUTS-->
               <!--
@@ -60,20 +61,20 @@ TODO:
             -->
               <div class="row" style="margin-top: 15px">
                 <div class="col">
-                  <label class="form-label" for="inputRsvName">지점이름</label>
-                  <input type="text" class="form-control" id="inputRsvName" placeholder="지점이름을 입력하세요" />
+                  <label class="form-label" for="name">지점이름</label>
+                  <input type="text" class="form-control" id="name" name="name" placeholder="지점이름을 입력하세요" required />
                 </div>
                 <div class="col">
-                  <label class="form-label" for="inputRsvManageid">관리번호</label>
-                  <input type="text" class="form-control" id="inputRsvManageid" placeholder="관리번호를 입력하세요" />
+                  <label class="form-label" for="manageId">관리번호</label>
+                  <input type="text" class="form-control" id="manageId" name="manageId" placeholder="관리번호를 입력하세요" required />
                 </div>
                 <div class="col">
-                  <label class="form-label" for="inputRsvAddress">주소</label>
-                  <input type="text" class="form-control" id="inputRsvAddress" placeholder="주소를 입력하세요" />
+                  <label class="form-label" for="address">주소</label>
+                  <input type="text" class="form-control" id="address" name="address" placeholder="주소를 입력하세요" required />
                 </div>
                 <div class="col">
-                  <label class="form-label" for="inputRsvType">제어</label>
-                  <select type="text" class="form-select" id="inputRsvType" name="inputRsvType">
+                  <label class="form-label" for="rsvType">제어</label>
+                  <select type="text" class="form-select" id="rsvType" name="rsvType">
                     <option value="0">수위 모니터링</option>
                     <option value="1">수문 제어</option>
                   </select>
@@ -82,69 +83,69 @@ TODO:
 
               <div class="row" style="margin-top: 15px">
                 <div class="col">
-                  <label class="form-label" for="inputRsvLvlDead">사수위(m)</label>
-                  <input type="text" class="form-control" id="inputRsvLvlDead" placeholder="사수위를 입력하세요" />
+                  <label class="form-label" for="lvlDead">사수위(m)</label>
+                  <input type="text" class="form-control" id="lvlDead" name="lvlDead" placeholder="사수위를 입력하세요" required />
                 </div>
                 <div class="col">
-                  <label class="form-label" for="inputRsvLvlHigh">만수위(m)</label>
-                  <input type="text" class="form-control" id="inputRsvLvlHigh" placeholder="만수위를 입력하세요" />
+                  <label class="form-label" for="lvlHigh">만수위(m)</label>
+                  <input type="text" class="form-control" id="lvlHigh" name="lvlHigh" placeholder="만수위를 입력하세요" required />
                 </div>
                 <div class="col">
-                  <label class="form-label" for="inputRsvLvlFlood">홍수위(m)</label>
-                  <input type="text" class="form-control" id="inputRsvLvlFlood" placeholder="홍수위를 입력하세요" />
+                  <label class="form-label" for="lvlFlood">홍수위(m)</label>
+                  <input type="text" class="form-control" id="lvlFlood" name="lvlFlood" placeholder="홍수위를 입력하세요" required />
                 </div>
                 <div class="col">
-                  <label class="form-label" for="inputRsvHeight">제방높이(m)</label>
-                  <input type="text" class="form-control" id="inputRsvHeight" placeholder="제방높이를 입력하세요" />
-                </div>
-              </div>
-
-              <div class="row" style="margin-top: 15px">
-                <div class="col">
-                  <label class="form-label" for="inputRsvValQuan">유효저수량(㎥)</label>
-                  <input type="text" class="form-control" id="inputRsvValQuan" placeholder="유효저수량을 입력하세요" />
-                </div>
-                <div class="col">
-                  <label class="form-label" for="inputRsvSenseP">센싱압력(Kgf/㎠)</label>
-                  <input type="text" class="form-control" id="inputRsvSenseP" placeholder="센싱 압력 최대값을 입력하세요" />
-                </div>
-                <div class="col">
-                  <label class="form-label" for="inputRsvSenseC">센싱보정(Kgf/㎠)</label>
-                  <input type="text" class="form-control" id="inputRsvSenseC" placeholder="센싱 보정값을 입력하세요" />
-                </div>
-                <div class="col">
-                  <label class="form-label" for="inputRsvLvlC">수위보정(m)</label>
-                  <input type="text" class="form-control" id="inputRsvLvlC" placeholder="수위 보정값을 입력하세요" />
+                  <label class="form-label" for="height">제방높이(m)</label>
+                  <input type="text" class="form-control" id="height" name="height" placeholder="제방높이를 입력하세요" required />
                 </div>
               </div>
 
               <div class="row" style="margin-top: 15px">
                 <div class="col">
-                  <label class="form-label" for="inputRsvIncharge">관할</label>
-                  <input type="text" class="form-control" id="inputRsvIncharge" placeholder="관할을 입력하세요" />
+                  <label class="form-label" for="valQuan">유효저수량(㎥)</label>
+                  <input type="text" class="form-control" id="valQuan" name="valQuan" placeholder="유효저수량을 입력하세요" required />
                 </div>
                 <div class="col">
-                  <label class="form-label" for="inputDeviceMAC">장비MAC</label>
-                  <input type="text" class="form-control" id="inputDeviceMAC" placeholder="장비MAC 12자리를 입력하세요" />
+                  <label class="form-label" for="senseP">센싱압력(Kgf/㎠)</label>
+                  <input type="text" class="form-control" id="senseP" name="senseP" placeholder="센싱 압력 최대값을 입력하세요" required />
                 </div>
                 <div class="col">
-                  <label class="form-label" for="inputDevicePhone">전화번호</label>
-                  <input type="text" class="form-control" id="inputDevicePhone" placeholder="전화번호를 입력하세요" />
+                  <label class="form-label" for="senseC">센싱보정(Kgf/㎠)</label>
+                  <input type="text" class="form-control" id="senseC" name="senseC" placeholder="센싱 보정값을 입력하세요" required />
                 </div>
                 <div class="col">
-                  <label class="form-label" for="inputDeviceCommInterver">통신주기</label>
-                  <input type="text" class="form-control" id="inputDeviceCommInterver" placeholder="1분 단위로 입력하세요" />
+                  <label class="form-label" for="lvlC">수위보정(m)</label>
+                  <input type="text" class="form-control" id="lvlC" name="lvlC" placeholder="수위 보정값을 입력하세요" required />
                 </div>
               </div>
 
               <div class="row" style="margin-top: 15px">
                 <div class="col">
-                  <label class="form-label" for="inputActuWaitTime">경보대기</label>
-                  <input type="text" class="form-control" id="inputActuWaitTime" placeholder="Actuator 경보 대기시간(초)을 입력하세요" />
+                  <label class="form-label" for="incharge">관할</label>
+                  <input type="text" class="form-control" id="incharge" name="incharge" placeholder="관할을 입력하세요" required />
                 </div>
                 <div class="col">
-                  <label class="form-label" for="inputActuTime">경보유지</label>
-                  <input type="text" class="form-control" id="inputActuTime" placeholder="Actuator 경보 유지시간(초)을 입력하세요" />
+                  <label class="form-label" for="MAC">장비MAC</label>
+                  <input type="text" class="form-control" id="MAC" name="MAC" placeholder="장비MAC 12자리를 입력하세요" required />
+                </div>
+                <div class="col">
+                  <label class="form-label" for="phone">전화번호</label>
+                  <input type="text" class="form-control" id="phone" name="phone" placeholder="전화번호를 입력하세요" required />
+                </div>
+                <div class="col">
+                  <label class="form-label" for="commInterver">통신주기</label>
+                  <input type="text" class="form-control" id="commInterver" name="commInterver" placeholder="1분 단위로 입력하세요" required />
+                </div>
+              </div>
+
+              <div class="row" style="margin-top: 15px">
+                <div class="col">
+                  <label class="form-label" for="actuWait">경보대기</label>
+                  <input type="text" class="form-control" id="actuWait" name="actuWait" placeholder="Actuator 경보 대기시간(초)을 입력하세요" required />
+                </div>
+                <div class="col">
+                  <label class="form-label" for="actuTime">경보유지</label>
+                  <input type="text" class="form-control" id="actuTime" name="actuTime" placeholder="Actuator 경보 유지시간(초)을 입력하세요" required />
                 </div>
               </div>
             </form>
@@ -191,5 +192,73 @@ TODO:
         </div>
       </div>
     </main>
+    <!-- <script>
+      $(document).ready(function () {
+        $('button[name="add"]').click(function () {
+          let formData = {
+            name: $("#inputRsvName").val(),
+            manageId: $("#inputRsvManageid").val(),
+            address: $("#inputRsvAddress").val(),
+            inputRsvType: $("#inputRsvType").val(),
+            inputRsvLvlDead: $("#inputRsvLvlDead").val(),
+            inputRsvLvlHigh: $("#inputRsvLvlHigh").val(),
+            inputRsvLvlFlood: $("#inputRsvLvlFlood").val(),
+            inputRsvHeight: $("#inputRsvHeight").val(),
+            inputRsvValQuan: $("#inputRsvValQuan").val(),
+            inputRsvSenseP: $("#inputRsvSenseP").val(),
+            inputRsvSenseC: $("#inputRsvSenseC").val(),
+            inputRsvLvlC: $("#inputRsvLvlC").val(),
+            inputRsvIncharge: $("#inputRsvIncharge").val(),
+            inputDeviceMAC: $("#inputDeviceMAC").val(),
+            inputDevicePhone: $("#inputDevicePhone").val(),
+            inputDeviceCommInterver: $("#inputDeviceCommInterver").val(),
+            inputActuWaitTime: $("#inputActuWaitTime").val(),
+            inputActuTime: $("#inputActuTime").val(),
+          };
+
+          $.ajax({
+            url: "/reservoirData",
+            type: "POST",
+            data: formData,
+          });
+        });
+
+        $('button[name="update"]').click(function () {
+          let formData = {
+            name: $("#inputRsvName").val(),
+            manageId: $("#inputRsvManageid").val(),
+            address: $("#inputRsvAddress").val(),
+            inputRsvType: $("#inputRsvType").val(),
+            inputRsvLvlDead: $("#inputRsvLvlDead").val(),
+            inputRsvLvlHigh: $("#inputRsvLvlHigh").val(),
+            inputRsvLvlFlood: $("#inputRsvLvlFlood").val(),
+            inputRsvHeight: $("#inputRsvHeight").val(),
+            inputRsvValQuan: $("#inputRsvValQuan").val(),
+            inputRsvSenseP: $("#inputRsvSenseP").val(),
+            inputRsvSenseC: $("#inputRsvSenseC").val(),
+            inputRsvLvlC: $("#inputRsvLvlC").val(),
+            inputRsvIncharge: $("#inputRsvIncharge").val(),
+            inputDeviceMAC: $("#inputDeviceMAC").val(),
+            inputDevicePhone: $("#inputDevicePhone").val(),
+            inputDeviceCommInterver: $("#inputDeviceCommInterver").val(),
+            inputActuWaitTime: $("#inputActuWaitTime").val(),
+            inputActuTime: $("#inputActuTime").val(),
+          };
+
+          $.ajax({
+            url: "/reservoirData",
+            type: "PUT",
+            data: formData,
+          });
+        });
+
+        $('button[name="delete"]').click(function () {
+          $.ajax({
+            url: "/reservoirData",
+            type: "DELETE",
+          });
+        });
+      });
+    </script> -->
   </body>
 </html>

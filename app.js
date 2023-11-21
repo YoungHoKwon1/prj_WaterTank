@@ -126,16 +126,6 @@ app.post(
   })
 );
 
-app.post(
-  "/admin",
-  catchAsync(async (req, res) => {
-    const { name, address, address2 } = req.body;
-    const location = new Location({ name, address, address2 });
-    await location.save();
-    res.redirect("/");
-  })
-);
-
 app.get("/login", (req, res) => {
   res.render("login");
 });
@@ -184,6 +174,16 @@ app.get("/reservoirData", async (req, res) => {
 });
 
 app.post(
+  "/admin",
+  catchAsync(async (req, res) => {
+    const { name, address, address2 } = req.body;
+    const location = new Location({ name, address, address2 });
+    await location.save();
+    res.redirect("/");
+  })
+);
+
+app.post(
   "/reservoirData",
   catchAsync(async (req, res) => {
     const { name, manageId, address, rsvType, lvlDead, lvlHigh, lvlFlood, height, valQuan, senseP, senseC, lvlC, incharge, MAC, phone, commInterver, actuWait, actuTime } =
@@ -208,6 +208,7 @@ app.post(
       actuWait,
       actuTime,
     });
+    console.log(reservoir);
     await reservoir.save();
     res.redirect("/reservoirData");
   })

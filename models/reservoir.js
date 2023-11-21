@@ -16,27 +16,23 @@ actu: actuator
 */
 const ReservoirSchema = new Schema({
   name: String,
-  manageId: Number,
+  manageId: String,
   address: String,
   rsvType: String,
-
-  lvlDead: Number,
-  lvlHigh: Number,
-  lvlFlood: Number,
-  height: Number,
-
-  valQuan: Number,
-  senseP: Number,
-  senseC: Number,
-  lvlC: Number,
-
+  lvlDead: String,
+  lvlHigh: String,
+  lvlFlood: String,
+  height: String,
+  valQuan: String,
+  senseP: String,
+  senseC: String,
+  lvlC: String,
   incharge: String,
   MAC: String,
-  phone: Number,
-  commInterver: Number,
-
-  actuWait: Number,
-  actuTime: Number,
+  phone: String,
+  commInterver: String,
+  actuWait: String,
+  actuTime: String,
 });
 
 module.exports = mongoose.model("Reservoir", ReservoirSchema);
