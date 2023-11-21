@@ -13,6 +13,7 @@
       integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
       crossorigin="anonymous"
     />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   </head>
 
   <body>
@@ -76,7 +77,168 @@
                 <button class="btn btn-outline-primary me-2">Search</button>
               </form>
             </div>
-            <div id="board"><%-include('./partials/reservoirDetails')%></div>
+            <div id="reservoirDetails">
+              <div class="mt-1 d-flex flex-column" style="width: 100%">
+                <h6>💧저수지 상세정보</h6>
+                <div class="d-flex" style="width: 100%">
+                  <div style="width: 30%"></div>
+                  <div style="width: 70%">
+                    <table class="table">
+                      <tbody id="reservoirDetailTable">
+                        <tr>
+                          <th scope="row">지점이름</th>
+                          <td style="font-weight: bold"></td>
+                        </tr>
+                        <tr>
+                          <th scope="row">관리번호</th>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <th scope="row">홍수/만수/사수위</th>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <th scope="row">소재지</th>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <th scope="row">관할지사</th>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <th scope="row">통신상태</th>
+                          <td id="idCommStatus" style="font-weight: normal; color: rgb(0, 0, 0)"></td>
+                        </tr>
+                        <tr>
+                          <th scope="row">모니터링 주기</th>
+                          <td>
+                            <div style="width: 100%">
+                              <input id="idMonitoringslider" type="range" min="0" max="11" value="0" class="slider" style="width: 80%; float: left" />
+                              <div id="idMonitoringtext" style="margin-left: 85%">10</div>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <th scope="row">계측 수위 (EL.m)</th>
+                          <td id="idLevel" style="font-weight: normal; color: rgb(0, 0, 0)"></td>
+                        </tr>
+                        <tr>
+                          <th scope="row">계측값(Kgf/㎠)</th>
+                          <td id="idMeasure"></td>
+                        </tr>
+                        <tr>
+                          <th scope="row">저수율</th>
+                          <td id="idPercent" style="font-weight: bold; color: rgb(255, 0, 0)"></td>
+                        </tr>
+                        <tr>
+                          <th scope="row">저수량(㎥)</th>
+                          <td id="idQuantity"></td>
+                        </tr>
+                        <tr>
+                          <th scope="row">온도</th>
+                          <td id="idTemp"></td>
+                        </tr>
+                        <tr>
+                          <th scope="row">시스템 전압</th>
+                          <td id="idVoltage"></td>
+                        </tr>
+                        <tr>
+                          <th scope="row">사용데이타</th>
+                          <td id="idComm"></td>
+                        </tr>
+                        <tr>
+                          <th scope="row">수문개방(목표값)</th>
+                          <td>
+                            <div class="row" style="width: 100%">
+                              <div class="col-sm">
+                                <button id="idFullClose" type="button" class="btn btn-primary" onclick="fullClose();" disabled="" hidden=""></button>
+                              </div>
+                              <div class="col-sm">
+                                <button id="idWorkingStop" type="button" class="btn btn-success" onclick="workingStop();" disabled="" hidden=""></button>
+                              </div>
+                              <div class="col-sm">
+                                <button id="idFullOpen" type="button" class="btn btn-danger" onclick="fullOpen();" disabled="" hidden=""></button>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <th scope="row">부분개폐</th>
+                          <td>
+                            <div id="idpartOpen" hidden="">사용 <input id="idpartOpenCheck" type="checkbox" onchange="idpartOpenCheckChanged()" /></div>
+                            <div style="width: 100%">
+                              <input
+                                id="idDoorRangeslider"
+                                type="range"
+                                min="0"
+                                max="100"
+                                step="10"
+                                style="width: 75%; float: left"
+                                onchange="openSliderChanged()"
+                                disabled=""
+                                hidden=""
+                              />
+                              <p id="idDoortext" style="float: right" hidden=""></p>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <th scope="row" id="idOpenText">수문열림</th>
+                          <td>
+                            <div style="width: 100%">
+                              <div id="idLeftBar" style="float: left; background-color: red; height: 24px" hidden=""></div>
+                              <div id="idRightBar" style="float: left; background-color: blue; height: 24px" hidden=""></div>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <th scope="row">카메라</th>
+                          <td>
+                            <button id="idImageCapture" type="button" class="btn btn-primary" onclick="imageCapture();">캡쳐 가능</button>
+                            <button id="idImageCaptureDone" type="button" class="btn btn-primary ms-2" onclick="imageShow();">보기</button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="reservoirGraph">
+              <div class="mt-1 d-flex flex-column">
+                <h6>📊저수지 그래프</h6>
+                <div id="idChart">
+                  <div class="d-flex justify-content-between" style="padding: 10px">
+                    <div>
+                      <div class="custom-control custom-radio">
+                        <input class="custom-control-input" name="dsetRadio2" type="radio" id="idSenseType3" checked="" />
+                        <label class="custom-control-label" for="idSenseType3">실시간</label>
+                      </div>
+                      <div class="custom-control custom-radio">
+                        <input class="custom-control-input" name="dsetRadio2" type="radio" id="idSenseType4" />
+                        <label class="custom-control-label" for="idSenseType4">날짜별</label>
+                      </div>
+                    </div>
+                    <div>
+                      <input id="idSenseDate" type="date" class="col form-control form-control-sm" />
+                    </div>
+                    <div style="float: right">
+                      <button class="btn btn-primary" type="button" onclick="updateGraph();">업데이트</button>
+                    </div>
+                  </div>
+                  <br />
+                  <br />
+                  <br />
+                  <div class="text-center"><h3>수위 (EL.m)</h3></div>
+                  <br />
+                  <br />
+                  <br />
+                  <div id="idChart-message">
+                    <canvas id="idChart-sub" width="0" class="chartjs-render-monitor" style="display: block; height: 0px; width: 0px" height="0"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -101,6 +263,22 @@
     </style>
 
     <script>
+      $(document).ready(function(){
+        $('input[type="radio"]').click(function(){
+          var value = $(this).val();
+
+          if(value === '1'){
+            $('#reservoirDetails').show();
+            $('#reservoirGraph').hide();
+          } else if(value === '2'){
+            $('#reservoirDetails').hide();
+            $('#reservoirGraph').show();
+          }
+        });
+
+        $('#reservoirDetails').show();
+        $('#reservoirGraph').hide();
+      });
       const feeds = <%- JSON.stringify(feeds) %>;
       const locations = <%- JSON.stringify(locations) %>;
 
@@ -153,34 +331,6 @@
       let infowindow = new kakao.maps.InfoWindow({
         content: iwContent
       });
-
-      function updateBoardContent() {
-        var selectedRadio = document.querySelector(
-          'input[name="btnradio"]:checked'
-        ).value;
-        var boardDiv = document.getElementById("board");
-
-        boardDiv.innerHTML = "";
-
-        switch (selectedRadio) {
-          case "1":
-            boardDiv.innerHTML = `<%- include('./partials/reservoirDetails') %>`;
-            break;
-          case "2":
-            boardDiv.innerHTML = `<%- include('./partials/reservoirGraph') %>`;
-            break;
-          default:
-            boardDiv.innerHTML = `<%- include('./partials/reservoirDetails') %>`;
-            break;
-        }
-      }
-
-      var radioButtons = document.querySelectorAll('input[name="btnradio"]');
-      radioButtons.forEach(function (radio) {
-        radio.addEventListener("change", updateBoardContent);
-      });
-
-      updateBoardContent();
     </script>
   </body>
 </html>
