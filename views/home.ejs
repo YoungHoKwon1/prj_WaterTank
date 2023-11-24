@@ -1,241 +1,225 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>JEOSOOJI</title>
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b50b4f49e5237883c18078faad157119&libraries=services,clusterer,drawing"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/moment"></script>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-      crossorigin="anonymous"
-    />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  </head>
 
-  <body>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-      crossorigin="anonymous"
-    ></script>
-    <%- include('./partials/navbarTop') %>
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-6">
-          <div id="map" style="width: 100%; height: 100vh"></div>
-        </div>
-        <div class="col-md-6">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-md-3">
-                <div class="card bg-primary text-white mb-2 mt-2" style="width: 150px">
-                  <div class="card-body">수위 경보</div>
-                  <div class="card-footer d-flex align-items-center justify-content-between">
-                    <div class="small text-white">1</div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="card bg-warning text-white mb-2 mt-2" style="width: 150px">
-                  <div class="card-body">수문 열림</div>
-                  <div class="card-footer d-flex align-items-center justify-content-between">
-                    <div class="small text-white">2</div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="card bg-success text-white mb-2 mt-2" style="width: 150px">
-                  <div class="card-body">배터리 경보</div>
-                  <div class="card-footer d-flex align-items-center justify-content-between">
-                    <div class="small text-white">3</div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="card bg-danger text-white mb-2 mt-2" style="width: 150px">
-                  <div class="card-body">액츄에이터 경보</div>
-                  <div class="card-footer d-flex align-items-center justify-content-between">
-                    <div class="small text-white">4</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="d-flex justify-content-between">
-              <div class="btn-group mb-1" role="group">
-                <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" value="1" checked />
-                <label class="btn btn-outline-primary" for="btnradio1">상세정보</label>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JEOSOOJI</title>
+  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b50b4f49e5237883c18078faad157119&libraries=services,clusterer,drawing"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/moment"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
 
-                <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" value="2" />
-                <label class="btn btn-outline-primary" for="btnradio2">그래프</label>
-              </div>
-              <form class="d-flex" role="search">
-                <input class="form-control me-2 ms-2" type="search" placeholder="Search" aria-label="Search" />
-                <button class="btn btn-outline-primary me-2">Search</button>
-              </form>
-            </div>
-            <div id="reservoirDetails">
-              <div class="mt-1 d-flex flex-column" style="width: 100%">
-                <h6>💧저수지 상세정보</h6>
-                <div class="d-flex" style="width: 100%">
-                  <div style="width: 30%"></div>
-                  <div style="width: 70%">
-                    <table class="table">
-                      <tbody id="reservoirDetailTable">
-                        <tr>
-                          <th scope="row">지점이름</th>
-                          <td style="font-weight: bold"></td>
-                        </tr>
-                        <tr>
-                          <th scope="row">관리번호</th>
-                          <td></td>
-                        </tr>
-                        <tr>
-                          <th scope="row">홍수/만수/사수위</th>
-                          <td></td>
-                        </tr>
-                        <tr>
-                          <th scope="row">소재지</th>
-                          <td></td>
-                        </tr>
-                        <tr>
-                          <th scope="row">관할지사</th>
-                          <td></td>
-                        </tr>
-                        <tr>
-                          <th scope="row">통신상태</th>
-                          <td id="idCommStatus" style="font-weight: normal; color: rgb(0, 0, 0)"></td>
-                        </tr>
-                        <tr>
-                          <th scope="row">모니터링 주기</th>
-                          <td>
-                            <div style="width: 100%">
-                              <input id="idMonitoringslider" type="range" min="0" max="11" value="0" class="slider" style="width: 80%; float: left" />
-                              <div id="idMonitoringtext" style="margin-left: 85%">10</div>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <th scope="row">계측 수위 (EL.m)</th>
-                          <td id="idLevel" style="font-weight: normal; color: rgb(0, 0, 0)"></td>
-                        </tr>
-                        <tr>
-                          <th scope="row">계측값(Kgf/㎠)</th>
-                          <td id="idMeasure"></td>
-                        </tr>
-                        <tr>
-                          <th scope="row">저수율</th>
-                          <td id="idPercent" style="font-weight: bold; color: rgb(255, 0, 0)"></td>
-                        </tr>
-                        <tr>
-                          <th scope="row">저수량(㎥)</th>
-                          <td id="idQuantity"></td>
-                        </tr>
-                        <tr>
-                          <th scope="row">온도</th>
-                          <td id="idTemp"></td>
-                        </tr>
-                        <tr>
-                          <th scope="row">시스템 전압</th>
-                          <td id="idVoltage"></td>
-                        </tr>
-                        <tr>
-                          <th scope="row">사용데이타</th>
-                          <td id="idComm"></td>
-                        </tr>
-                        <tr>
-                          <th scope="row">수문개방(목표값)</th>
-                          <td>
-                            <div class="row" style="width: 100%">
-                              <div class="col-sm">
-                                <button id="idFullClose" type="button" class="btn btn-primary" onclick="fullClose();" disabled="" hidden=""></button>
-                              </div>
-                              <div class="col-sm">
-                                <button id="idWorkingStop" type="button" class="btn btn-success" onclick="workingStop();" disabled="" hidden=""></button>
-                              </div>
-                              <div class="col-sm">
-                                <button id="idFullOpen" type="button" class="btn btn-danger" onclick="fullOpen();" disabled="" hidden=""></button>
-                              </div>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <th scope="row">부분개폐</th>
-                          <td>
-                            <div id="idpartOpen" hidden="">사용 <input id="idpartOpenCheck" type="checkbox" onchange="idpartOpenCheckChanged()" /></div>
-                            <div style="width: 100%">
-                              <input
-                                id="idDoorRangeslider"
-                                type="range"
-                                min="0"
-                                max="100"
-                                step="10"
-                                style="width: 75%; float: left"
-                                onchange="openSliderChanged()"
-                                disabled=""
-                                hidden=""
-                              />
-                              <p id="idDoortext" style="float: right" hidden=""></p>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <th scope="row" id="idOpenText">수문열림</th>
-                          <td>
-                            <div style="width: 100%">
-                              <div id="idLeftBar" style="float: left; background-color: red; height: 24px" hidden=""></div>
-                              <div id="idRightBar" style="float: left; background-color: blue; height: 24px" hidden=""></div>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <th scope="row">카메라</th>
-                          <td>
-                            <button id="idImageCapture" type="button" class="btn btn-primary" onclick="imageCapture();">캡쳐 가능</button>
-                            <button id="idImageCaptureDone" type="button" class="btn btn-primary ms-2" onclick="imageShow();">보기</button>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  <%- include('./partials/navbarTop') %>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-6">
+        <div id="map" style="width: 100%; height: 100vh"></div>
+      </div>
+      <div class="col-md-6">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-3">
+              <div class="card bg-primary text-white mb-2 mt-2" style="width: 150px">
+                <div class="card-body">수위 경보</div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                  <div class="small text-white">1</div>
                 </div>
               </div>
             </div>
-            <div id="reservoirGraph">
-              <div class="mt-1 d-flex flex-column">
-                <h6>📊저수지 그래프</h6>
-                <div id="idChart">
-                  <div class="d-flex justify-content-between" style="padding: 10px">
-                    <div>
-                      <div class="custom-control custom-radio">
-                        <input class="custom-control-input" name="dsetRadio2" type="radio" id="idSenseType3" checked="" />
-                        <label class="custom-control-label" for="idSenseType3">실시간</label>
-                      </div>
-                      <div class="custom-control custom-radio">
-                        <input class="custom-control-input" name="dsetRadio2" type="radio" id="idSenseType4" />
-                        <label class="custom-control-label" for="idSenseType4">날짜별</label>
-                      </div>
+            <div class="col-md-3">
+              <div class="card bg-warning text-white mb-2 mt-2" style="width: 150px">
+                <div class="card-body">수문 열림</div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                  <div class="small text-white">2</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="card bg-success text-white mb-2 mt-2" style="width: 150px">
+                <div class="card-body">배터리 경보</div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                  <div class="small text-white">3</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="card bg-danger text-white mb-2 mt-2" style="width: 150px">
+                <div class="card-body">액츄에이터 경보</div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                  <div class="small text-white">4</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-between">
+            <div class="btn-group mb-1" role="group">
+              <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" value="1" checked />
+              <label class="btn btn-outline-primary" for="btnradio1">상세정보</label>
+
+              <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" value="2" />
+              <label class="btn btn-outline-primary" for="btnradio2">그래프</label>
+            </div>
+            <!--3. search-->
+            <form action="/search" class="d-flex" id="searchForm" role="search">
+              <input name="search" class="form-control me-2 ms-2" id="searchInput" type="text" placeholder="Search" aria-label="Search" />
+              <button class="btn btn-outline-primary me-2">Search</button>
+            </form>
+          </div>
+          <div id="reservoirDetails">
+            <div class="mt-1 d-flex flex-column" style="width: 100%">
+              <h6>💧저수지 상세정보</h6>
+              <div class="d-flex" style="width: 100%">
+                <div style="width: 30%"></div>
+                <div style="width: 70%">
+                  <table class="table">
+                    <tbody id="reservoirDetailTable">
+                      <tr>
+                        <th scope="row">지점이름</th>
+                        <td style="font-weight: bold"></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">관리번호</th>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">홍수/만수/사수위</th>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">소재지</th>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">관할지사</th>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">통신상태</th>
+                        <td id="idCommStatus" style="font-weight: normal; color: rgb(0, 0, 0)"></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">모니터링 주기</th>
+                        <td>
+                          <div style="width: 100%">
+                            <input id="idMonitoringslider" type="range" min="0" max="11" value="0" class="slider" style="width: 80%; float: left" />
+                            <div id="idMonitoringtext" style="margin-left: 85%">10</div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row">계측 수위 (EL.m)</th>
+                        <td id="idLevel" style="font-weight: normal; color: rgb(0, 0, 0)"></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">계측값(Kgf/㎠)</th>
+                        <td id="idMeasure"></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">저수율</th>
+                        <td id="idPercent" style="font-weight: bold; color: rgb(255, 0, 0)"></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">저수량(㎥)</th>
+                        <td id="idQuantity"></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">온도</th>
+                        <td id="idTemp"></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">시스템 전압</th>
+                        <td id="idVoltage"></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">사용데이타</th>
+                        <td id="idComm"></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">수문개방(목표값)</th>
+                        <td>
+                          <div class="row" style="width: 100%">
+                            <div class="col-sm">
+                              <button id="idFullClose" type="button" class="btn btn-primary" onclick="fullClose();" disabled="" hidden=""></button>
+                            </div>
+                            <div class="col-sm">
+                              <button id="idWorkingStop" type="button" class="btn btn-success" onclick="workingStop();" disabled="" hidden=""></button>
+                            </div>
+                            <div class="col-sm">
+                              <button id="idFullOpen" type="button" class="btn btn-danger" onclick="fullOpen();" disabled="" hidden=""></button>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row">부분개폐</th>
+                        <td>
+                          <div id="idpartOpen" hidden="">사용 <input id="idpartOpenCheck" type="checkbox" onchange="idpartOpenCheckChanged()" /></div>
+                          <div style="width: 100%">
+                            <input id="idDoorRangeslider" type="range" min="0" max="100" step="10" style="width: 75%; float: left" onchange="openSliderChanged()" disabled="" hidden="" />
+                            <p id="idDoortext" style="float: right" hidden=""></p>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row" id="idOpenText">수문열림</th>
+                        <td>
+                          <div style="width: 100%">
+                            <div id="idLeftBar" style="float: left; background-color: red; height: 24px" hidden=""></div>
+                            <div id="idRightBar" style="float: left; background-color: blue; height: 24px" hidden=""></div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row">카메라</th>
+                        <td>
+                          <button id="idImageCapture" type="button" class="btn btn-primary" onclick="imageCapture();">캡쳐 가능</button>
+                          <button id="idImageCaptureDone" type="button" class="btn btn-primary ms-2" onclick="imageShow();">보기</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="reservoirGraph">
+            <div class="mt-1 d-flex flex-column">
+              <h6>📊저수지 그래프</h6>
+              <div id="idChart">
+                <div class="d-flex justify-content-between" style="padding: 10px">
+                  <div>
+                    <div class="custom-control custom-radio">
+                      <input class="custom-control-input" name="dsetRadio2" type="radio" id="idSenseType3" checked="" />
+                      <label class="custom-control-label" for="idSenseType3">실시간</label>
                     </div>
-                    <div>
-                      <input id="idSenseDate" type="date" class="col form-control form-control-sm" />
-                    </div>
-                    <div style="float: right">
-                      <button class="btn btn-primary" type="button" onclick="updateGraph();">업데이트</button>
+                    <div class="custom-control custom-radio">
+                      <input class="custom-control-input" name="dsetRadio2" type="radio" id="idSenseType4" />
+                      <label class="custom-control-label" for="idSenseType4">날짜별</label>
                     </div>
                   </div>
-                  <br />
-                  <br />
-                  <br />
-                  <div class="text-center"><h3>수위 (EL.m)</h3></div>
-                  <br />
-                  <br />
-                  <br />
-                  <div id="idChart-message">
-                    <canvas id="idChart-sub" width="0" class="chartjs-render-monitor" style="display: block; height: 0px; width: 0px" height="0"></canvas>
+                  <div>
+                    <input id="idSenseDate" type="date" class="col form-control form-control-sm" />
                   </div>
+                  <div style="float: right">
+                    <button class="btn btn-primary" type="button" onclick="updateGraph();">업데이트</button>
+                  </div>
+                </div>
+                <br />
+                <br />
+                <br />
+                <div class="text-center">
+                  <h3>수위 (EL.m)</h3>
+                </div>
+                <br />
+                <br />
+                <br />
+                <div id="idChart-message">
+                  <canvas id="idChart-sub" width="0" class="chartjs-render-monitor" style="display: block; height: 0px; width: 0px" height="0"></canvas>
                 </div>
               </div>
             </div>
@@ -243,94 +227,103 @@
         </div>
       </div>
     </div>
+  </div>
 
-    <style>
-      .navbar {
-        margin: 0;
-      }
+  <style>
+    .navbar {
+      margin: 0;
+    }
 
-      .container-fluid {
-        padding: 0;
-      }
+    .container-fluid {
+      padding: 0;
+    }
 
-      .col-md-8 {
-        padding: 0;
-      }
+    .col-md-8 {
+      padding: 0;
+    }
 
-      .col {
-        padding: 0;
-      }
-    </style>
+    .col {
+      padding: 0;
+    }
+  </style>
 
-    <script>
-      $(document).ready(function(){
-        $('input[type="radio"]').click(function(){
-          var value = $(this).val();
+  <script>
+    $(document).ready(function() {
+      $('input[type="radio"]').click(function() {
+        var value = $(this).val();
 
-          if(value === '1'){
-            $('#reservoirDetails').show();
-            $('#reservoirGraph').hide();
-          } else if(value === '2'){
-            $('#reservoirDetails').hide();
-            $('#reservoirGraph').show();
-          }
-        });
-
-        $('#reservoirDetails').show();
-        $('#reservoirGraph').hide();
-      });
-      const feeds = <%- JSON.stringify(feeds) %>;
-      const locations = <%- JSON.stringify(locations) %>;
-
-      let container = document.getElementById("map");
-      let options = {
-        center: new kakao.maps.LatLng(35.7, 128),
-        level: 12,
-      };
-      let map = new kakao.maps.Map(container, options);
-      let mapTypeControl = new kakao.maps.MapTypeControl();
-      map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
-      let zoomControl = new kakao.maps.ZoomControl();
-      map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
-
-      let geocoder = new kakao.maps.services.Geocoder();
-
-      for (let i = 0; i < locations.length; i++) {
-        let iwContent = '<div style="padding:5px;">' + locations[i].name + '</div>';
-
-        geocoder.addressSearch(locations[i].address, createMarkerCallback(iwContent, i));
-
-        function createMarkerCallback(content, locationIndex) {
-          return function(result, status) {
-            if (status === kakao.maps.services.Status.OK) {
-              let coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-
-              let marker = new kakao.maps.Marker({
-                map: map,
-                position: coords,
-              });
-
-              kakao.maps.event.addListener(marker, 'mouseover', function() {
-
-                infowindow.setContent(content);
-                infowindow.open(map, marker);
-              });
-
-              kakao.maps.event.addListener(marker, 'mouseout', function() {
-                infowindow.close();
-              });
-
-              kakao.maps.event.addListener(marker, 'click', function() {
-                window.open(`/location/${locations[locationIndex]._id}`, '_blank', 'width=600,height=300, top=' + (window.innerHeight - 500) / 2 + ', left=' + (window.innerWidth - 500) / 2);
-              });
-            }
-          };
+        if (value === '1') {
+          $('#reservoirDetails').show();
+          $('#reservoirGraph').hide();
+        } else if (value === '2') {
+          $('#reservoirDetails').hide();
+          $('#reservoirGraph').show();
         }
-      }
-
-      let infowindow = new kakao.maps.InfoWindow({
-        content: iwContent
       });
-    </script>
-  </body>
+
+      $('#reservoirDetails').show();
+      $('#reservoirGraph').hide();
+    });
+    const feeds = <%- JSON.stringify(feeds) %>;
+    const locations = <%- JSON.stringify(locations) %>;
+
+    let container = document.getElementById("map");
+    let options = {
+      center: new kakao.maps.LatLng(35.7, 128),
+      level: 12,
+    };
+    let map = new kakao.maps.Map(container, options);
+    let mapTypeControl = new kakao.maps.MapTypeControl();
+    map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
+    let zoomControl = new kakao.maps.ZoomControl();
+    map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+
+    let geocoder = new kakao.maps.services.Geocoder();
+
+    for (let i = 0; i < locations.length; i++) {
+      let iwContent = '<div style="padding:5px;">' + locations[i].name + '</div>';
+
+      geocoder.addressSearch(locations[i].address, createMarkerCallback(iwContent, i));
+
+      function createMarkerCallback(content, locationIndex) {
+        return function(result, status) {
+          if (status === kakao.maps.services.Status.OK) {
+            let coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+            let marker = new kakao.maps.Marker({
+              map: map,
+              position: coords,
+            });
+
+            kakao.maps.event.addListener(marker, 'mouseover', function() {
+
+              infowindow.setContent(content);
+              infowindow.open(map, marker);
+            });
+
+            kakao.maps.event.addListener(marker, 'mouseout', function() {
+              infowindow.close();
+            });
+
+            kakao.maps.event.addListener(marker, 'click', function() {
+              window.open(`/location/${locations[locationIndex]._id}`, '_blank', 'width=600,height=300, top=' + (window.innerHeight - 500) / 2 + ', left=' + (window.innerWidth - 500) / 2);
+            });
+          }
+        };
+      }
+    }
+
+    let infowindow = new kakao.maps.InfoWindow({
+      content: iwContent
+    });
+
+    // search
+    document.getElementById('searchForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const query = document.getElementById('searchInput').value;
+      console.log(query);
+    });
+  </script>
+</body>
+
 </html>

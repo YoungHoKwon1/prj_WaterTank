@@ -13,6 +13,17 @@ const User = require("./models/user");
 const axios = require("axios");
 const Reservoir = require("./models/reservoir");
 
+/*
+TODO:
+3. search : 지점이름, 관리번호, 소재지, 관할지사 (reservoir.js)
+- onclick -> 지점이름, 주소
+
+4. 저수지, 사용자 데이터베이스에 저장하고 화면에 띄우기 (reservoir.js, user2.js)
+- reservoirData.ejs, app.js 
+
+5. 마커 클릭시 색 변경
+*/
+
 //modified
 //MongoServerSelectionError: connect ECONNREFUSED ::1:27017
 //localhost -> 0.0.0.0
@@ -222,7 +233,41 @@ app.get("/settings", async (req, res) => {
   res.render("settings");
 });
 
-app.put("/settings", async (req, res) => {});
+app.put("/settings", async (req, res) => { });
+
+//routing search
+app.get('/search', async (req, res) => {
+  const { query } = req.query;
+  try {
+    const results = await Reservoir.find({ name: new RegExp(query, 'i') });
+    res.json(results);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+//routing new reservoir data
+app.post('/reservoirData', async (req, res) => {
+  try {
+    // data from form
+    const { name, manageId, address, rsvType, lvlDead, lvlHigh, lvlFlood, height, valQuan, senseP, senseC, lvlC, incharge, MAC, phone, commInterver, actuWait, actuTime } = req.body;
+
+    // create new reservoir data
+    const newReservoir = new Reservoir({
+      name, manageId, address, rsvType, lvlDead, lvlHigh, lvlFlood, height, valQuan, senseP, senseC, lvlC, incharge, MAC, phone, commInterver, actuWait, actuTime
+    });
+
+    // save in db
+    await newReservoir.save();
+
+    res.redirect('/reservoirData');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server Error');
+  }
+});
+
+
 
 app.listen(3000, () => {
   console.log("serving on port 3000");
