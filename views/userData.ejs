@@ -36,10 +36,10 @@ TODO:
       <div class="card" style="margin-top:15px">
         <div class="card-body">
           <h1>사용자 추가</h1>
-          <form action="/adadad" method="GET">
+          <form action="/userData" method="POST">
 
             <!--BUTTONS-->
-            <button class="btn btn-primary">추가</button>
+            <button type="submit" class="btn btn-primary">추가</button>
             <button type="button" class="btn btn-secondary">수정</button>
             <button type="button" class="btn btn-warning">저장</button>
             <button type="button" class="btn btn-danger">삭제</button>
@@ -48,34 +48,34 @@ TODO:
             <div class="row" style="margin-top:15px">
               <div class="col">
                 <label class="form-label" for="inputName">이름</label>
-                <input type="text" class="form-control" id="inputName" placeholder="이름을 입력하세요">
+                <input type="text" class="form-control" name="inputName" id="inputName" placeholder="이름을 입력하세요">
               </div>
               <div class="col">
                 <label class="form-label" for="inputCompany">회사</label>
-                <input type="text" class="form-control" id="inputCompany" placeholder="회사를 입력하세요">
+                <input type="text" class="form-control" name="inputCompany" id="inputCompany" placeholder="회사를 입력하세요">
               </div>
               <div class="col">
                 <label class="form-label" for="inputPhone">전화번호</label>
-                <input type="text" class="form-control" id="inputPhone" placeholder="전화번호를 입력하세요">
+                <input type="text" class="form-control" name="inputPhone" id="inputPhone" placeholder="전화번호를 입력하세요">
               </div>
               <div class="col">
                 <label class="form-label" for="inputAddress">주소</label>
-                <input type="text" class="form-control" id="inputAddress" placeholder="주소를 입력하세요">
+                <input type="text" class="form-control" name="inputAddress" id="inputAddress" placeholder="주소를 입력하세요">
               </div>
             </div>
 
             <div class="row" style="margin-top:15px">
               <div class="col">
                 <label class="form-label" for="inputUserName">사용자명</label>
-                <input type="text" class="form-control" id="inputUserName" placeholder="지점이름을 입력하세요">
+                <input type="text" class="form-control" name="inputUserName" id="inputUserName" placeholder="사용자명을 입력하세요">
               </div>
               <div class="col">
                 <label class="form-label" for="inputPassword">비밀번호</label>
-                <input type="text" class="form-control" id="inputPassword" placeholder="관리번호를 입력하세요">
+                <input type="text" class="form-control" name="inputPassword" id="inputPassword" placeholder="관리번호를 입력하세요">
               </div>
               <div class="col">
                 <label class="form-label" for="selectUserType">구분</label>
-                <select type="text" class="form-select" id="selectUserType" name="inputReservoirRsvtype">
+                <select type="text" class="form-select" id="selectUserType" name="selectUserType">
                   <option value="0">일반 사용자</option>
                   <option value="1">관리자</option>
                 </select>

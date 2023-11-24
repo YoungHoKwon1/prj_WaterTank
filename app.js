@@ -12,6 +12,7 @@ const catchAsync = require("./utils/catchAsync");
 const User = require("./models/user");
 const axios = require("axios");
 const Reservoir = require("./models/reservoir");
+const User2 = require("./models/user2");
 
 /*
 TODO:
@@ -19,7 +20,8 @@ TODO:
 - onclick -> 지점이름, 주소
 
 4. 저수지, 사용자 데이터베이스에 저장하고 화면에 띄우기 (reservoir.js, user2.js)
-- reservoirData.ejs, app.js 
+- reservoirData.ejs, app.js //routing new reservoir data <--검색
+
 
 5. 마커 클릭시 색 변경
 */
@@ -252,7 +254,7 @@ app.post('/reservoirData', async (req, res) => {
     // data from form
     const { name, manageId, address, rsvType, lvlDead, lvlHigh, lvlFlood, height, valQuan, senseP, senseC, lvlC, incharge, MAC, phone, commInterver, actuWait, actuTime } = req.body;
 
-    // create new reservoir data
+    // create new reservoir instance
     const newReservoir = new Reservoir({
       name, manageId, address, rsvType, lvlDead, lvlHigh, lvlFlood, height, valQuan, senseP, senseC, lvlC, incharge, MAC, phone, commInterver, actuWait, actuTime
     });
@@ -266,6 +268,36 @@ app.post('/reservoirData', async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
+
+// app.post('/userData', async (req, res) => {
+//   try {
+//     const { inputName, inputCompany, inputPhone, inputAddress, inputUserName, inputPassword, selectUserType, inchargedReservoir } = req.body;
+
+//     // create new reservoir instance
+//     const newUser = new User2({
+//       inputName,
+//       inputCompany,
+//       inputPhone,
+//       inputAddress,
+//       inputUserName,
+//       inputPassword,
+//       selectUserType,
+//       inchargedReservoir
+//     });
+
+//     await User2.register(newUser, inputPassword);
+
+//     // TODO: 비밀번호 해싱 등 추가적인 처리
+
+//     // save in db
+//     await newUser.save();
+
+//     res.redirect('/userData');
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send('Server Error');
+//   }
+// });
 
 
 
