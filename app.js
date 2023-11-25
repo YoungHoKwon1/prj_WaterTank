@@ -269,35 +269,31 @@ app.post('/reservoirData', async (req, res) => {
   }
 });
 
-// app.post('/userData', async (req, res) => {
-//   try {
-//     const { inputName, inputCompany, inputPhone, inputAddress, inputUserName, inputPassword, selectUserType, inchargedReservoir } = req.body;
+app.post('/userData', async (req, res) => {
+  try {
+    const { inputName, inputCompany, inputPhone, inputAddress, inputUserName, inputPassword, selectUserType, inchargedReservoir } = req.body;
+    console.log(inputName);
+    // create new reservoir instance
+    const newUser = new User2({
+      inputName,
+      inputCompany,
+      inputPhone,
+      inputAddress,
+      inputUserName,
+      inputPassword,
+      selectUserType,
+      inchargedReservoir
+    });
+    console.log(newUser);
 
-//     // create new reservoir instance
-//     const newUser = new User2({
-//       inputName,
-//       inputCompany,
-//       inputPhone,
-//       inputAddress,
-//       inputUserName,
-//       inputPassword,
-//       selectUserType,
-//       inchargedReservoir
-//     });
-
-//     await User2.register(newUser, inputPassword);
-
-//     // TODO: 비밀번호 해싱 등 추가적인 처리
-
-//     // save in db
-//     await newUser.save();
-
-//     res.redirect('/userData');
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send('Server Error');
-//   }
-// });
+    // save in db
+    await newUser.save();
+    res.redirect('/userData');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server Error');
+  }
+});
 
 
 
