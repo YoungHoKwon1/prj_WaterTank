@@ -62,7 +62,7 @@ TODO:
               </div>
               <div class="col">
                 <label class="form-label" for="address">주소</label>
-                <input type="text" class="form-control" id="address" name="address" placeholder="주소를 입력하세요" required />
+                <input type="text" class="form-control" id="address" name="address" placeholder="주소를 입력하세요" onclick="execDaumPostcode()" required />
               </div>
               <div class="col">
                 <label class="form-label" for="rsvType">제어</label>
@@ -184,74 +184,16 @@ TODO:
       </div>
     </div>
   </main>
-  <!-- <script>
-      $(document).ready(function () {
-        $('button[name="add"]').click(function () {
-          let formData = {
-            name: $("#inputRsvName").val(),
-            manageId: $("#inputRsvManageid").val(),
-            address: $("#inputRsvAddress").val(),
-            inputRsvType: $("#inputRsvType").val(),
-            inputRsvLvlDead: $("#inputRsvLvlDead").val(),
-            inputRsvLvlHigh: $("#inputRsvLvlHigh").val(),
-            inputRsvLvlFlood: $("#inputRsvLvlFlood").val(),
-            inputRsvHeight: $("#inputRsvHeight").val(),
-            inputRsvValQuan: $("#inputRsvValQuan").val(),
-            inputRsvSenseP: $("#inputRsvSenseP").val(),
-            inputRsvSenseC: $("#inputRsvSenseC").val(),
-            inputRsvLvlC: $("#inputRsvLvlC").val(),
-            inputRsvIncharge: $("#inputRsvIncharge").val(),
-            inputDeviceMAC: $("#inputDeviceMAC").val(),
-            inputDevicePhone: $("#inputDevicePhone").val(),
-            inputDeviceCommInterver: $("#inputDeviceCommInterver").val(),
-            inputActuWaitTime: $("#inputActuWaitTime").val(),
-            inputActuTime: $("#inputActuTime").val(),
-          };
-
-          $.ajax({
-            url: "/reservoirData",
-            type: "POST",
-            data: formData,
-          });
-        });
-
-        $('button[name="update"]').click(function () {
-          let formData = {
-            name: $("#inputRsvName").val(),
-            manageId: $("#inputRsvManageid").val(),
-            address: $("#inputRsvAddress").val(),
-            inputRsvType: $("#inputRsvType").val(),
-            inputRsvLvlDead: $("#inputRsvLvlDead").val(),
-            inputRsvLvlHigh: $("#inputRsvLvlHigh").val(),
-            inputRsvLvlFlood: $("#inputRsvLvlFlood").val(),
-            inputRsvHeight: $("#inputRsvHeight").val(),
-            inputRsvValQuan: $("#inputRsvValQuan").val(),
-            inputRsvSenseP: $("#inputRsvSenseP").val(),
-            inputRsvSenseC: $("#inputRsvSenseC").val(),
-            inputRsvLvlC: $("#inputRsvLvlC").val(),
-            inputRsvIncharge: $("#inputRsvIncharge").val(),
-            inputDeviceMAC: $("#inputDeviceMAC").val(),
-            inputDevicePhone: $("#inputDevicePhone").val(),
-            inputDeviceCommInterver: $("#inputDeviceCommInterver").val(),
-            inputActuWaitTime: $("#inputActuWaitTime").val(),
-            inputActuTime: $("#inputActuTime").val(),
-          };
-
-          $.ajax({
-            url: "/reservoirData",
-            type: "PUT",
-            data: formData,
-          });
-        });
-
-        $('button[name="delete"]').click(function () {
-          $.ajax({
-            url: "/reservoirData",
-            type: "DELETE",
-          });
-        });
-      });
-    </script> -->
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  <script>
+    function execDaumPostcode() {
+      new daum.Postcode({
+        oncomplete: function(data) {
+          document.getElementById("address").value = data.address;
+        }
+      }).open();
+    }
+  </script>
 </body>
 
 </html>

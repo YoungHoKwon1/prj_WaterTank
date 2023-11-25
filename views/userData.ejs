@@ -60,7 +60,7 @@ TODO:
               </div>
               <div class="col">
                 <label class="form-label" for="inputAddress">주소</label>
-                <input type="text" class="form-control" name="inputAddress" id="inputAddress" placeholder="주소를 입력하세요">
+                <input type="text" class="form-control" name="inputAddress" id="inputAddress" placeholder="주소를 입력하세요" onclick="execDaumPostcode()">
               </div>
             </div>
 
@@ -119,7 +119,16 @@ TODO:
     </div>
   </main>
 
-
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  <script>
+    function execDaumPostcode() {
+      new daum.Postcode({
+        oncomplete: function(data) {
+          document.getElementById("address").value = data.address;
+        }
+      }).open();
+    }
+  </script>
 </body>
 
 </html>

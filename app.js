@@ -20,7 +20,8 @@ TODO:
 - onclick -> 지점이름, 주소
 
 4. 저수지, 사용자 데이터베이스에 저장하고 화면에 띄우기 (reservoir.js, user2.js)
-- reservoirData.ejs, app.js //routing new reservoir data <--검색
+- reservoir.js app.post('/reservoirData')
+- user2.js app.post('/userData')
 
 
 5. 마커 클릭시 색 변경
@@ -113,10 +114,10 @@ app.get("/register", (req, res) => {
 });
 
 app.get("/admin", (req, res) => {
-  if (!req.isAuthenticated()) {
-    req.flash("error", "관리자 로그인 필요");
-    return res.redirect("/login");
-  }
+  // if (!req.isAuthenticated()) {
+  //   req.flash("error", "관리자 로그인 필요");
+  //   return res.redirect("/login");
+  // }
   res.render("admin");
 });
 
@@ -269,10 +270,36 @@ app.post('/reservoirData', async (req, res) => {
   }
 });
 
+// passport 적용 모르겠음
+// app.post(
+//   "/userData",
+//   catchAsync(async (req, res, next) => {
+//     try {
+//       const { inputName, inputCompany, inputPhone, inputAddress, inputUserName, inputPassword, selectUserType, inchargedReservoir } = req.body;
+//       const newUser = new User2({
+//         inputName,
+//         inputCompany,
+//         inputPhone,
+//         inputAddress,
+//         inputUserName,
+//         inputPassword,
+//         selectUserType,
+//         inchargedReservoir
+//       });
+//       const registeredUser = await User2.register(newUser, inputPassword);
+//       await registeredUser.save();
+//       res.redirect("/userData");
+//     } catch (e) {
+//       req.flash("error", e.message);
+//       res.redirect("/userData");
+//     }
+//   })
+// );
+
+// save userData.ejs data
 app.post('/userData', async (req, res) => {
   try {
     const { inputName, inputCompany, inputPhone, inputAddress, inputUserName, inputPassword, selectUserType, inchargedReservoir } = req.body;
-    console.log(inputName);
     // create new reservoir instance
     const newUser = new User2({
       inputName,
@@ -284,7 +311,6 @@ app.post('/userData', async (req, res) => {
       selectUserType,
       inchargedReservoir
     });
-    console.log(newUser);
 
     // save in db
     await newUser.save();
