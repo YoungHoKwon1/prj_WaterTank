@@ -265,7 +265,7 @@
       $('#reservoirGraph').hide();
     });
     const feeds = <%- JSON.stringify(feeds) %>;
-    const locations = <%- JSON.stringify(locations) %>;
+    const reservoirs = <%- JSON.stringify(reservoirs) %>;
 
     let container = document.getElementById("map");
     let options = {
@@ -280,24 +280,28 @@
 
     let geocoder = new kakao.maps.services.Geocoder();
 
-    for (let i = 0; i < locations.length; i++) {
-      let iwContent = '<div style="padding:5px;">' + locations[i].name + '</div>';
+    for (let i = 0; i < reservoirs.length; i++) {
+      let iwContent = '<div>' + reservoirs[i].name + '</div>';
+      geocoder.addressSearch(reservoirs[i].address, createMarkerCallback(iwContent, i));
 
-      geocoder.addressSearch(locations[i].address, createMarkerCallback(iwContent, i));
-
-      function createMarkerCallback(content, locationIndex) {
+      function createMarkerCallback(content, reservoirIndex) {
         return function(result, status) {
           if (status === kakao.maps.services.Status.OK) {
             let coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+            var infowindow = new kakao.maps.InfoWindow({
+              content: content
+            });
 
             let marker = new kakao.maps.Marker({
               map: map,
               position: coords,
             });
 
+
             kakao.maps.event.addListener(marker, 'mouseover', function() {
 
-              infowindow.setContent(content);
+              // infowindow.setContent(content);
               infowindow.open(map, marker);
             });
 
@@ -306,17 +310,13 @@
             });
 
             kakao.maps.event.addListener(marker, 'click', function() {
-              window.open(`/location/${locations[locationIndex]._id}`, '_blank', 'width=600,height=300, top=' + (window.innerHeight - 500) / 2 + ', left=' + (window.innerWidth - 500) / 2);
+              window.open(`/location/${reservoirs[reservoirIndex]._id}`, '_blank', 'width=600,height=300, top=' + (window.innerHeight - 500) / 2 + ', left=' + (window.innerWidth - 500) / 2);
             });
           }
         };
       }
+
     }
-
-    let infowindow = new kakao.maps.InfoWindow({
-      content: iwContent
-    });
-
     // search
     document.getElementById('searchForm').addEventListener('submit', function(e) {
       e.preventDefault();

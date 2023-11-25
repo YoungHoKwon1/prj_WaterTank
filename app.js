@@ -24,7 +24,9 @@ TODO:
 - user2.js app.post('/userData')
 
 
-5. 마커 클릭시 색 변경
+5. 마커 클릭시 색 변경, 지점이름 띄우기
+- 마커 컬러는 이미지로써 적용이 가능한듯?
+- 지점이름 완료
 */
 
 //modified
@@ -86,16 +88,18 @@ app.use((req, res, next) => {
 app.get("/", async (req, res) => {
   const response = await axios.get(`https://api.thingspeak.com/channels/${thingSpeak_ID}/feeds.json?api_key=${thingSpeak_KEY}`);
   const feeds = response.data.feeds;
-  const locations = await Location.find();
+  const reservoirs = await Reservoir.find();
+  console.log(reservoirs);
+  console.log(reservoirs.length);
   res.render("home", {
     feeds: feeds,
-    locations: locations,
+    reservoirs: reservoirs,
   });
 });
 
 app.get("/location/:id", async (req, res) => {
-  const location = await Location.findById(req.params.id);
-  res.render("location", { location });
+  const reservoir = await Reservoir.findById(req.params.id);
+  res.render("location", { reservoir });
 });
 
 app.delete("/location/:id", async (req, res) => {
