@@ -65,8 +65,8 @@
               <label class="btn btn-outline-primary" for="btnradio2">그래프</label>
             </div>
             <!--3. search-->
-            <form action="/search" class="d-flex" id="searchForm" role="search">
-              <input name="search" class="form-control me-2 ms-2" id="searchInput" type="text" placeholder="Search" aria-label="Search" />
+            <form action="/search" class="d-flex" id="search" method="get">
+              <input name="search" class="form-control me-2 ms-2" id="search" type="text" placeholder="Search" aria-label="Search" />
               <button class="btn btn-outline-primary me-2">Search</button>
             </form>
           </div>
@@ -84,7 +84,9 @@
                       </tr>
                       <tr>
                         <th scope="row">관리번호</th>
-                        <td></td>
+                        <!--고민중-->
+                        <!--<td><%= searchedRsv.name %></td>-->
+                        <td><%= searchedRsv.name %></td>
                       </tr>
                       <tr>
                         <th scope="row">홍수/만수/사수위</th>
@@ -317,12 +319,50 @@
       }
 
     }
-    // search
-    document.getElementById('searchForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const query = document.getElementById('searchInput').value;
-      console.log(query);
-    });
+    // 작동하지 않음
+    //   document.getElementById('searchButton').addEventListener('click', function(event) {
+    //     event.preventDefault();
+    //     loadReservoirDetails();
+    //   });
+
+    //   // 서버에서 JSON 데이터를 가져오는 함수
+    //   function loadReservoirDetails() {
+    //     fetch('/search?search=검색어')
+    //       .then(response => response.json())
+    //       .then(data => {
+    //         updateReservoirDetails(data[0]); // 첫 번째 검색 결과로 테이블 업데이트
+    //       })
+    //       .catch(error => console.error('Error:', error));
+    //   }
+
+    //   // 테이블을 업데이트하는 함수
+    //   function updateReservoirDetails(reservoir) {
+    //     document.getElementById('reservoirDetailTable').innerHTML = `
+    //   <tr>
+    //     <th scope="row">지점이름</th>
+    //     <td style="font-weight: bold">${reservoir.name}</td>
+    //   </tr>
+    //   <tr>
+    //     <th scope="row">관리번호</th>
+    //     <td>${reservoir.manageId}</td>
+    //   </tr>
+    //   <tr>
+    //     <th scope="row">홍수/만수/사수위</th>
+    //     <td>${reservoir.lvlFlood}/${reservoir.lvlHigh}/${reservoir.lvlDead}</td>
+    //   </tr>
+    //   <tr>
+    //     <th scope="row">소재지</th>
+    //     <td>${reservoir.address}</td>
+    //   </tr>
+    //   <tr>
+    //     <th scope="row">관할지사</th>
+    //     <td>${reservoir.incharge}</td>
+    //   </tr>
+    //   <!-- 기타 필드들... -->
+    // `;
+    //   }
+
+    //   window.onload = loadReservoirDetails;
   </script>
 </body>
 

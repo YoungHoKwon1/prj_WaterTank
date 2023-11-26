@@ -176,7 +176,28 @@ TODO:
                 </tr>
               </thead>
               <tbody>
-                <!--TODO: DB -> table 불러오기-->
+                <% reservoirData.forEach(function(reservoir) { %>
+                <tr>
+                  <td><%= reservoir.name %></td>
+                  <td><%= reservoir.manageId %></td>
+                  <td><%= reservoir.address %></td>
+                  <td><%= reservoir.rsvType %></td>
+                  <td><%= reservoir.lvlDead %></td>
+                  <td><%= reservoir.lvlHigh %></td>
+                  <td><%= reservoir.lvlFlood %></td>
+                  <td><%= reservoir.height %></td>
+                  <td><%= reservoir.valQuan %></td>
+                  <td><%= reservoir.senseP %></td>
+                  <td><%= reservoir.senseC %></td>
+                  <td><%= reservoir.lvlC %></td>
+                  <td><%= reservoir.incharge %></td>
+                  <td><%= reservoir.MAC %></td>
+                  <td><%= reservoir.phone %></td>
+                  <td><%= reservoir.commInterver %></td>
+                  <td><%= reservoir.actuWait %></td>
+                  <td><%= reservoir.actuTime %></td>
+                </tr>
+                <% }); %>
               </tbody>
             </table>
           </div>

@@ -110,7 +110,18 @@ TODO:
                 </tr>
               </thead>
               <tbody>
-                <!--TODO: DB -> user table 불러오기-->
+                <% user2Data.forEach(function(user) { %>
+                <tr>
+                  <td><%= user.inputName %></td>
+                  <td><%= user.inputCompany %></td>
+                  <td><%= user.inputPhone %></td>
+                  <td><%= user.inputAddress %></td>
+                  <td><%= user.inputUserName %></td>
+                  <td><%= user.inputPassword %></td>
+                  <td><%= user.selectUserType %></td>
+                  <td><%= user.inchargedReservoir %></td>
+                </tr>
+                <% }); %>
               </tbody>
             </table>
           </div>

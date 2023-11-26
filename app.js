@@ -89,8 +89,6 @@ app.get("/", async (req, res) => {
   const response = await axios.get(`https://api.thingspeak.com/channels/${thingSpeak_ID}/feeds.json?api_key=${thingSpeak_KEY}`);
   const feeds = response.data.feeds;
   const reservoirs = await Reservoir.find();
-  console.log(reservoirs);
-  console.log(reservoirs.length);
   res.render("home", {
     feeds: feeds,
     reservoirs: reservoirs,
@@ -118,6 +116,7 @@ app.get("/register", (req, res) => {
 });
 
 app.get("/admin", (req, res) => {
+  // admin 확인을 위해 잠시 주석처리 해둠
   // if (!req.isAuthenticated()) {
   //   req.flash("error", "관리자 로그인 필요");
   //   return res.redirect("/login");
@@ -188,7 +187,13 @@ app.get("/datas", async (req, res) => {
 });
 
 app.get("/reservoirData", async (req, res) => {
-  res.render("reservoirData");
+  try {
+    const reservoirData = await Reservoir.find({});
+    res.render('reservoirData', { reservoirData });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server Error');
+  }
 });
 
 app.post(
@@ -226,14 +231,19 @@ app.post(
       actuWait,
       actuTime,
     });
-    console.log(reservoir);
     await reservoir.save();
     res.redirect("/reservoirData");
   })
 );
 
 app.get("/userData", async (req, res) => {
-  res.render("userData");
+  try {
+    const users = await User2.find({}); // 모든 사용자 데이터 조회
+    res.render('userData', { user2Data: users }); // EJS 템플릿에 데이터 전달
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server Error');
+  }
 });
 
 app.get("/settings", async (req, res) => {
@@ -244,14 +254,25 @@ app.put("/settings", async (req, res) => { });
 
 //routing search
 app.get('/search', async (req, res) => {
-  const { query } = req.query;
+  const query = req.query;
   try {
-    const results = await Reservoir.find({ name: new RegExp(query, 'i') });
-    res.json(results);
+    const searchedRsv = await Reservoir.find({ name: query.search });
+
+    //no matching rsv name
+    if (result.length == 0) {
+      console.log('search failed')
+      req.flash("error", "일치하는 지점이름이 없습니다");
+      // res.redirect("/");
+    } else { //matching rsv name
+      // res.json(result);
+      console.log('search complete')
+      res.render('searchedRsv', { searchedRsv });
+    }
   } catch (error) {
     res.status(500).send(error);
   }
 });
+
 
 //routing new reservoir data
 app.post('/reservoirData', async (req, res) => {
