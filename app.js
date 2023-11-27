@@ -21,11 +21,15 @@ const serverPort = 23579;
 const client = new net.Socket();
 
 client.connect(serverPort, serverAddress, () => {
-  console.log("Connected to server");
+  client.write("Hello, server! I'm requesting some data.");
 });
 
 client.on("data", (data) => {
   console.log("Received data from server:", data.toString());
+  if (data.includes("sense=ok;")) {
+    console.log("Received 'sense=ok;' from the server!");
+    // 원하는 처리 수행
+  }
 });
 
 client.on("close", () => {
@@ -367,8 +371,13 @@ app.post("/reservoirData", async (req, res) => {
 
 // save userData.ejs data
 app.post("/userData", async (req, res) => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+  const formattedDate = `${year}년 ${month}월 ${day}일`;
   try {
-    const { inputName, inputCompany, inputPhone, inputAddress, inputUserName, inputPassword, selectUserType, inchargedReservoir } = req.body;
+    const { inputName, inputCompany, inputPhone, inputAddress, inputUserName, inputPassword, selectUserType, inchargedReservoir, registerDate } = req.body;
     // create new reservoir instance
     const newUser = new User2({
       inputName,
@@ -377,8 +386,9 @@ app.post("/userData", async (req, res) => {
       inputAddress,
       inputUserName,
       inputPassword,
-      selectUserType,
+      selectUserType: selectUserType === "1" ? "관리자" : "일반 사용자",
       inchargedReservoir,
+      registerDate: formattedDate,
     });
 
     // save in db

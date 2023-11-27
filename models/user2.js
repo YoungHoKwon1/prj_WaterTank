@@ -15,6 +15,7 @@ const User2Schema = new Schema({
   inputPassword: String,
   selectUserType: String,
   inchargedReservoir: String,
+  registerDate: String,
 });
 
 // User2Schema.plugin(passportLocalMongoose);
