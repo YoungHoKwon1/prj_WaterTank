@@ -189,10 +189,10 @@ app.get("/datas", async (req, res) => {
 app.get("/reservoirData", async (req, res) => {
   try {
     const reservoirData = await Reservoir.find({});
-    res.render('reservoirData', { reservoirData });
+    res.render("reservoirData", { reservoirData });
   } catch (error) {
     console.error(error);
-    res.status(500).send('Server Error');
+    res.status(500).send("Server Error");
   }
 });
 
@@ -202,16 +202,95 @@ app.post(
     const { name, address, address2 } = req.body;
     const location = new Location({ name, address, address2 });
     await location.save();
-    res.redirect("/");
+    res.rekakao.maps.event.addListener(marker, "click", function () {
+      let clickedLocation = locations[locationIndex];
+
+      document.querySelector("#reservoirDetailTable tr:nth-child(1) td").textContent = clickedLocation.name;
+      document.querySelector("#reservoirDetailTable tr:nth-child(4) td").textContent = clickedLocation.address;
+
+      marker.setImage("http://map.daum.net/map_2dhd.png", new kakao.maps.Size(24, 35));
+    });
+    direct("/");
   })
 );
 
 app.post(
   "/reservoirData",
   catchAsync(async (req, res) => {
-    const { name, manageId, address, rsvType, lvlDead, lvlHigh, lvlFlood, height, valQuan, senseP, senseC, lvlC, incharge, MAC, phone, commInterver, actuWait, actuTime } =
+    const { name, manageId, address, rsvType, lvlDead, lvlHigh, lvlFlood, height, valQuan, senseP, senseC, lvlC, incharge, mac, phone, commInterver, actuWait, actuTime } =
       req.body;
     const reservoir = new Reservoir({
+      name,
+      manageId,
+      address,
+      rsvType,
+      lvlDead,
+      lvlHigh,
+      lvlFlood,
+      height,
+      valQuan,
+      senseP,
+      senseC,
+      lvlC,
+      incharge,
+      mac,
+      phone,
+      commInterver,
+      actuWait,
+      actuTime,
+    });
+    await reservoir.save();
+    res.redirect("/reservoirData");
+  })
+);
+
+app.get("/userData", async (req, res) => {
+  try {
+    const users = await User2.find({}); // 모든 사용자 데이터 조회
+    res.render("userData", { user2Data: users }); // EJS 템플릿에 데이터 전달
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server Error");
+  }
+});
+
+app.get("/settings", async (req, res) => {
+  res.render("settings");
+});
+
+app.put("/settings", async (req, res) => {});
+
+//routing search
+app.get("/search", async (req, res) => {
+  const query = req.query;
+  try {
+    const searchedRsv = await Reservoir.find({ name: query.search });
+
+    //no matching rsv name
+    if (result.length == 0) {
+      console.log("search failed");
+      req.flash("error", "일치하는 지점이름이 없습니다");
+      // res.redirect("/");
+    } else {
+      //matching rsv name
+      // res.json(result);
+      console.log("search complete");
+      res.render("searchedRsv", { searchedRsv });
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+//routing new reservoir data
+app.post("/reservoirData", async (req, res) => {
+  try {
+    // data from form
+    const { name, manageId, address, rsvType, lvlDead, lvlHigh, lvlFlood, height, valQuan, senseP, senseC, lvlC, incharge, MAC, phone, commInterver, actuWait, actuTime } =
+      req.body;
+
+    // create new reservoir instance
+    const newReservoir = new Reservoir({
       name,
       manageId,
       address,
@@ -231,67 +310,14 @@ app.post(
       actuWait,
       actuTime,
     });
-    await reservoir.save();
-    res.redirect("/reservoirData");
-  })
-);
-
-app.get("/userData", async (req, res) => {
-  try {
-    const users = await User2.find({}); // 모든 사용자 데이터 조회
-    res.render('userData', { user2Data: users }); // EJS 템플릿에 데이터 전달
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Server Error');
-  }
-});
-
-app.get("/settings", async (req, res) => {
-  res.render("settings");
-});
-
-app.put("/settings", async (req, res) => { });
-
-//routing search
-app.get('/search', async (req, res) => {
-  const query = req.query;
-  try {
-    const searchedRsv = await Reservoir.find({ name: query.search });
-
-    //no matching rsv name
-    if (result.length == 0) {
-      console.log('search failed')
-      req.flash("error", "일치하는 지점이름이 없습니다");
-      // res.redirect("/");
-    } else { //matching rsv name
-      // res.json(result);
-      console.log('search complete')
-      res.render('searchedRsv', { searchedRsv });
-    }
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
-
-
-//routing new reservoir data
-app.post('/reservoirData', async (req, res) => {
-  try {
-    // data from form
-    const { name, manageId, address, rsvType, lvlDead, lvlHigh, lvlFlood, height, valQuan, senseP, senseC, lvlC, incharge, MAC, phone, commInterver, actuWait, actuTime } = req.body;
-
-    // create new reservoir instance
-    const newReservoir = new Reservoir({
-      name, manageId, address, rsvType, lvlDead, lvlHigh, lvlFlood, height, valQuan, senseP, senseC, lvlC, incharge, MAC, phone, commInterver, actuWait, actuTime
-    });
 
     // save in db
     await newReservoir.save();
 
-    res.redirect('/reservoirData');
+    res.redirect("/reservoirData");
   } catch (error) {
     console.error(error);
-    res.status(500).send('Server Error');
+    res.status(500).send("Server Error");
   }
 });
 
@@ -322,7 +348,7 @@ app.post('/reservoirData', async (req, res) => {
 // );
 
 // save userData.ejs data
-app.post('/userData', async (req, res) => {
+app.post("/userData", async (req, res) => {
   try {
     const { inputName, inputCompany, inputPhone, inputAddress, inputUserName, inputPassword, selectUserType, inchargedReservoir } = req.body;
     // create new reservoir instance
@@ -334,19 +360,17 @@ app.post('/userData', async (req, res) => {
       inputUserName,
       inputPassword,
       selectUserType,
-      inchargedReservoir
+      inchargedReservoir,
     });
 
     // save in db
     await newUser.save();
-    res.redirect('/userData');
+    res.redirect("/userData");
   } catch (error) {
     console.error(error);
-    res.status(500).send('Server Error');
+    res.status(500).send("Server Error");
   }
 });
-
-
 
 app.listen(3000, () => {
   console.log("serving on port 3000");

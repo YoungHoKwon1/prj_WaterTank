@@ -28,7 +28,7 @@ const ReservoirSchema = new Schema({
   senseC: String,
   lvlC: String,
   incharge: String,
-  MAC: String,
+  mac: String,
   phone: String,
   commInterver: String,
   actuWait: String,
