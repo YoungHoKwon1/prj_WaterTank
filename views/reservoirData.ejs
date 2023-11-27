@@ -125,8 +125,8 @@ TODO:
                   <input type="text" class="form-control" id="incharge" name="incharge" placeholder="관할을 입력하세요" required />
                 </div>
                 <div class="col">
-                  <label class="form-label" for="MAC">장비MAC</label>
-                  <input type="text" class="form-control" id="MAC" name="MAC" placeholder="장비MAC 12자리를 입력하세요" required />
+                  <label class="form-label" for="mac">장비MAC</label>
+                  <input type="text" class="form-control" id="mac" name="mac" placeholder="장비mac 12자리를 입력하세요" required />
                 </div>
                 <div class="col">
                   <label class="form-label" for="phone">전화번호</label>
@@ -184,8 +184,10 @@ TODO:
                   </tr>
                 </thead>
                 <tbody>
-                  <% reservoirData.forEach(function(reservoir) { %>
+                  <% reservoirData.forEach(function(reservoir,index) { %>
                   <tr>
+                    <td><input class="form-check-input" type="checkbox" id="checkbox<%= index %>" /></td>
+                    <td><%= index + 1 %></td>
                     <td><%= reservoir.name %></td>
                     <td><%= reservoir.manageId %></td>
                     <td><%= reservoir.address %></td>
@@ -199,11 +201,12 @@ TODO:
                     <td><%= reservoir.senseC %></td>
                     <td><%= reservoir.lvlC %></td>
                     <td><%= reservoir.incharge %></td>
-                    <td><%= reservoir.MAC %></td>
+                    <td><%= reservoir.mac %></td>
                     <td><%= reservoir.phone %></td>
                     <td><%= reservoir.commInterver %></td>
                     <td><%= reservoir.actuWait %></td>
                     <td><%= reservoir.actuTime %></td>
+                    <td><%= reservoir.registerDate %></td>
                   </tr>
                   <% }); %>
                 </tbody>

@@ -33,6 +33,7 @@ const ReservoirSchema = new Schema({
   commInterver: String,
   actuWait: String,
   actuTime: String,
+  registerDate: String,
 });
 
 module.exports = mongoose.model("Reservoir", ReservoirSchema);

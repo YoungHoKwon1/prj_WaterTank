@@ -13,6 +13,28 @@ const User = require("./models/user");
 const axios = require("axios");
 const Reservoir = require("./models/reservoir");
 const User2 = require("./models/user2");
+const net = require("net");
+
+const serverAddress = "3.35.1.49";
+const serverPort = 23579;
+
+const client = new net.Socket();
+
+client.connect(serverPort, serverAddress, () => {
+  console.log("Connected to server");
+});
+
+client.on("data", (data) => {
+  console.log("Received data from server:", data.toString());
+});
+
+client.on("close", () => {
+  console.log("Connection closed");
+});
+
+client.on("error", (err) => {
+  console.error("Error:", err.message);
+});
 
 /*
 TODO:
@@ -214,36 +236,6 @@ app.post(
   })
 );
 
-app.post(
-  "/reservoirData",
-  catchAsync(async (req, res) => {
-    const { name, manageId, address, rsvType, lvlDead, lvlHigh, lvlFlood, height, valQuan, senseP, senseC, lvlC, incharge, mac, phone, commInterver, actuWait, actuTime } =
-      req.body;
-    const reservoir = new Reservoir({
-      name,
-      manageId,
-      address,
-      rsvType,
-      lvlDead,
-      lvlHigh,
-      lvlFlood,
-      height,
-      valQuan,
-      senseP,
-      senseC,
-      lvlC,
-      incharge,
-      mac,
-      phone,
-      commInterver,
-      actuWait,
-      actuTime,
-    });
-    await reservoir.save();
-    res.redirect("/reservoirData");
-  })
-);
-
 app.get("/userData", async (req, res) => {
   try {
     const users = await User2.find({}); // 모든 사용자 데이터 조회
@@ -284,13 +276,15 @@ app.get("/search", async (req, res) => {
 
 //routing new reservoir data
 app.post("/reservoirData", async (req, res) => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+  const formattedDate = `${year}년 ${month}월 ${day}일`;
+
   try {
     // data from form
-    const { name, manageId, address, rsvType, lvlDead, lvlHigh, lvlFlood, height, valQuan, senseP, senseC, lvlC, incharge, MAC, phone, commInterver, actuWait, actuTime } =
-      req.body;
-
-    // create new reservoir instance
-    const newReservoir = new Reservoir({
+    const {
       name,
       manageId,
       address,
@@ -304,11 +298,35 @@ app.post("/reservoirData", async (req, res) => {
       senseC,
       lvlC,
       incharge,
-      MAC,
+      mac,
       phone,
       commInterver,
       actuWait,
       actuTime,
+      registerDate,
+    } = req.body;
+
+    // create new reservoir instance
+    const newReservoir = new Reservoir({
+      name,
+      manageId,
+      address,
+      rsvType: rsvType === "1" ? "수문 제어" : "수위 모니터링",
+      lvlDead,
+      lvlHigh,
+      lvlFlood,
+      height,
+      valQuan,
+      senseP,
+      senseC,
+      lvlC,
+      incharge,
+      mac,
+      phone,
+      commInterver,
+      actuWait,
+      actuTime,
+      registerDate: formattedDate,
     });
 
     // save in db
