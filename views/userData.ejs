@@ -144,14 +144,11 @@ TODO:
 
     //delete button
     deleteButton.addEventListener('click', function() {
-
-
       const checkedIds = [];
       const checkboxes = document.querySelectorAll('.form-check-input:checked');
       checkboxes.forEach(checkbox => {
         checkedIds.push(checkbox.value);
       });
-
       if (checkedIds.length > 0) {
         // 서버에 삭제 요청 보내기
         fetch('/deleteUserData', {
