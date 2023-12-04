@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
+const bodyParser = require('body-parser');
 const ejsMate = require("ejs-mate");
 const Location = require("./models/location");
 const session = require("express-session");
@@ -110,6 +111,8 @@ app.use((req, res, next) => {
   res.locals.error = req.flash("error");
   next();
 });
+
+app.use(bodyParser.json())
 
 app.get("/", async (req, res) => {
   const response = await axios.get(`https://api.thingspeak.com/channels/${thingSpeak_ID}/feeds.json?api_key=${thingSpeak_KEY}`);
@@ -254,7 +257,7 @@ app.get("/settings", async (req, res) => {
   res.render("settings");
 });
 
-app.put("/settings", async (req, res) => {});
+app.put("/settings", async (req, res) => { });
 
 //routing search
 app.get("/search", async (req, res) => {
@@ -397,6 +400,31 @@ app.post("/userData", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).send("Server Error");
+  }
+});
+
+
+//res.redirect("/reservoirData");이 안되는데 왜그럴까
+app.delete('/deleteRsvData', async (req, res) => {
+  try {
+    const idsToDelete = req.body.ids;
+    await Reservoir.deleteMany({ _id: { $in: idsToDelete } });
+    // res.status(200).send('Deleted successfully');
+    res.redirect("/reservoirData");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server Error');
+  }
+});
+
+app.delete('/deleteUserData', async (req, res) => {
+  try {
+    const idsToDelete = req.body.ids;
+    await User2.deleteMany({ _id: { $in: idsToDelete } });
+    res.status(200).send('Delete complete');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server Error');
   }
 });
 
